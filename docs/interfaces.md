@@ -1,10 +1,10 @@
 # Current interfaces and adapters
 
-[Developer index](developers.md) · [Source map](architecture.md) · [Planned contracts](separation-plan.md)
+[Developer index](developers.md) · [Source map](architecture.md) · [Separation status](separation-plan.md)
 
 ## Existing environment API
 
-See [simulator.py](../survival_agent/simulator.py). `SurvivalWorld(seed=0, config=Config())` initializes an episode; there is currently **no `reset()` method**. Construct another world to restart. `observe()` returns a fresh `float32` array of shape `(agents, 5, 2*radius+1, 2*radius+1)`, normally `(8, 5, 5, 5)`.
+See [simulator.py](../survival_env/simulator.py). `SurvivalWorld(seed=0, config=Config())` initializes an episode; there is currently **no `reset()` method**. Construct another world to restart. `observe()` returns a fresh `float32` array of shape `(agents, 5, 2*radius+1, 2*radius+1)`, normally `(8, 5, 5, 5)`.
 
 Channels are food, self-at-center, another living agent, valid in-bounds cell, and own hunger divided by maximum hunger. Dead agents have all-zero observations. Policies must not read world positions, food maps or other agents' histories. `frame()` and `state()` are privileged replay/checkpoint tools.
 
@@ -26,12 +26,16 @@ This callable is the existing baseline runner convention, not a framework-wide p
 
 ## Use an agent component with another environment
 
-The runnable [toy_env_adapter.py](../examples/toy_env_adapter.py) defines a separate one-step, five-arm bandit. Its adapter converts the public cue to a five-dimensional feature vector and decodes a scalar action. `LanguageLatentCore(feature_width=5)` accepts `(batch, 5)` features, produces a latent representation, then `(batch, 5)` policy logits and `(batch,)` values. Despite its name, this class does not load a language model.
+The runnable [toy_env_adapter.py](../examples/toy_env_adapter.py), using [the explicit toy adapter](../survival_adapters/toy.py), defines a separate one-step, five-arm bandit. Its adapter converts the public cue to a five-dimensional feature vector and decodes a scalar action. `LanguageLatentCore(feature_width=5)` accepts `(batch, 5)` features, produces a latent representation, then `(batch, 5)` policy logits and `(batch,)` values. Despite its name, this class does not load a language model.
 
 ```bash
 python -B -m examples.toy_env_adapter
 ```
 
-The example does not prove a whole trainer can switch environments. Existing collectors still create `SurvivalWorld`, use eight agents, and depend on survival formatting. `HistoryAgent` expects history tensors `(batch, history, 5, obs_width, obs_width)` and five actions; the standard path uses history 4 and width 5. Language controllers additionally require the default local-grid semantics. Other observations need an honest task-specific encoder; other action counts or continuous controls need model changes.
+The example does not prove a whole trainer can switch environments. Survival-specific collectors now live in `survival_adapters` and still create `SurvivalWorld`, use eight agents, and depend on survival formatting. `HistoryAgent` expects history tensors `(batch, history, 5, obs_width, obs_width)` and five actions; the standard path uses history 4 and width 5. Language controllers additionally require the default local-grid semantics. Other observations need an honest task-specific encoder; other action counts or continuous controls need model changes.
 
-Optional [LocalCommunication](../survival_agent/communication.py) is environment-side transport: bounded plain text, local range, next-step expiry and delivery only to survivors. It does not execute messages, shape rewards or expose world coordinates to policies.
+Optional [LocalCommunication](../survival_env/communication.py) is environment-side transport: bounded plain text, local range, next-step expiry and delivery only to survivors. It does not execute messages, shape rewards or expose world coordinates to policies.
+
+## Implemented dependency boundaries
+
+Importing `survival_env` and running its baseline does not import `survival_agent`, Torch, safetensors or Transformers. Model/search imports and the toy adapter do not import the concrete survival simulator. [Fresh-process tests](../tests/test_portability.py) enforce both by raising on forbidden imports. Combined checkpoints and collection are explicitly adapter operations. Old `survival_agent.simulator` and runner paths are compatibility shims, so callers using those integration paths intentionally reach the environment.

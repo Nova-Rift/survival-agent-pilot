@@ -25,16 +25,7 @@ class ToyBandit:
         return {'cue': self.target}, float(action == self.target), True, False, {}
 
 
-class ToyAdapter:
-    @staticmethod
-    def encode(observation):
-        # The bandit cue is public observation, not privileged state.
-        return torch.from_numpy(np.eye(5, dtype=np.float32)[observation['cue']][None])
-
-    @staticmethod
-    def decode(action):
-        return int(action)
-
+from survival_adapters.toy import ToyAdapter
 
 def main():
     torch.set_num_threads(1)

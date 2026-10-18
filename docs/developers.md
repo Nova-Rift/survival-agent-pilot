@@ -1,12 +1,12 @@
 # Developer guide
 
-Start with the working code before the planned package split. All commands below run from the repository root on a POSIX shell with Python 3.10+; `timeout` is the GNU utility. Windows users can use WSL. Output folders must be new.
+The first package split is implemented: `survival_env` contains mechanics, `survival_agent` contains models/search, and `survival_adapters` contains integration. Existing CLI/import paths forward to these implementations. All commands below run from the repository root on a POSIX shell with Python 3.10+; `timeout` is the GNU utility. Windows users can use WSL. Output folders must be new.
 
 - [Current interfaces and extension examples](interfaces.md)
 - [Models, checkpoints and provenance](models.md)
 - [Tests and command verification](verification.md)
 - [Directory and architecture map](architecture.md)
-- [Planned separation](separation-plan.md)
+- [Separation status](separation-plan.md)
 - [Security scope](../SECURITY.md)
 
 ## Setup status
@@ -21,7 +21,7 @@ python -m venv .venv
 python -m pip install -r requirements-language.txt
 ```
 
-For environment-only use, the existing simulator imports NumPy without Torch or Transformers. Packaging still lists ML dependencies; independent installable packages are planned. Do not infer that an environment-only distribution already exists.
+For environment-only use, `requirements.txt` and the base package metadata require only NumPy. `requirements-agent.txt` adds Torch/safetensors; `requirements-language.txt` adds Transformers/Jinja2. Package extras `agent` and `language` expose the same distinction. There is one distribution containing three importable packages, not separately published distributions. No install or dependency resolution was performed for this split.
 
 ## First run
 
@@ -46,7 +46,7 @@ The first example uses a scripted wait policy and completes three joint steps wi
 
 ```bash
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 timeout 60s python -B -m unittest discover -v
-python -B -m scripts.verify_docs
+python -B -m scripts.verify_docs --no-training
 ```
 
-The second command inventories and checks every shell command in README and `docs/`, runs permitted bounded examples in temporary output folders, verifies outputs and links, and reports skipped setup/download commands explicitly. It runs small scratch-model engineering updates, not pretrained inference or a study. See the [verification limits](verification.md).
+The second command inventories and checks every shell command in README and `docs/`, runs permitted nontraining examples in temporary output folders, verifies outputs and links, and reports skipped setup/download commands explicitly. The `--no-training` pass skips experiment collection/training/evaluation commands. The explicitly requested regression suite still exercises tiny deterministic update/resume cases; no training experiment is launched. See the [verification limits](verification.md).

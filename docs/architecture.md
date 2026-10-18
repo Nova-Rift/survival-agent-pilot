@@ -1,18 +1,21 @@
 # Architecture and directory map
 
-[Developer index](developers.md) · [Current interfaces](interfaces.md) · [Planned split](separation-plan.md)
+[Developer index](developers.md) · [Current interfaces](interfaces.md) · [Separation status](separation-plan.md)
 
-The simulator, agents and experiment runners currently share `survival_agent/`. This is the actual layout; independent environment/agent packages are planned.
+Three importable packages share the existing distribution: `survival_env` (NumPy-only mechanics), `survival_agent` (model/search code), and `survival_adapters` (integration). No algorithm or world rules were changed. Old module paths forward for compatibility.
 
 | Path | Responsibility |
 |---|---|
-| [simulator.py](../survival_agent/simulator.py) | Local observations, seeded world transitions, collision rules, random/greedy baselines. |
-| [communication.py](../survival_agent/communication.py) | Optional local plain-text transport. |
+| [simulator.py](../survival_env/simulator.py) | Local observations, seeded world transitions, collision rules, random/greedy baselines. |
+| [communication.py](../survival_env/communication.py) | Optional local plain-text transport. |
 | [agent.py](../survival_agent/agent.py) | Small history transformer and shallow latent lookahead. |
 | [language_backend.py](../survival_agent/language_backend.py) | Local pretrained or random byte-vocabulary language mode; no implicit downloads. |
 | [integrated.py](../survival_agent/integrated.py) | Frozen features to trainable latent model and bounded actions. |
-| [training.py](../survival_agent/training.py) | On-policy actor-critic collection, updates and held-out evaluation. |
+| [training.py](../survival_adapters/training.py) | On-policy actor-critic collection, updates and held-out evaluation. |
 | [muzero.py](../survival_agent/muzero.py) | Minimal PUCT MCTS, visit targets, episode replay and recurrent learner. |
+| [collectors.py](../survival_adapters/collectors.py) | Survival-specific MuZero collection. |
+| [checkpoints.py](../survival_adapters/checkpoints.py) | Combined world/model reconstruction and resume. |
+| [toy.py](../survival_adapters/toy.py) | Independent five-arm toy adapter. |
 | [checkpoint_io.py](../survival_agent/checkpoint_io.py) | Structured safetensors/JSON serialization and bounds. |
 | [configs/](../survival_agent/configs/) | Explicit scratch/pretrained configuration. |
 | [examples/](../examples/) | Small runnable custom-policy and toy-adapter examples. |
@@ -21,6 +24,12 @@ The simulator, agents and experiment runners currently share `survival_agent/`. 
 | [assets/](../assets/) | Recorded README GIF and provenance. |
 
 Model files belong in the ignored project-level `models/` folder. Checkpoints and run datasets belong in ignored `runs/` folders, not Git. See [model modes](models.md) before loading anything.
+
+The canonical baseline entry point is below; the old `survival_agent.run` CLI continues to work.
+
+```bash
+python -B -m survival_env.run --help
+```
 
 ## Inspect the CLI without loading a model
 

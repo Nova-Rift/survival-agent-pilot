@@ -1,5 +1,2 @@
-# Security-oriented minimums; install into a fresh isolated environment.
-# Modern dependency combination not yet fully compatibility-tested.
+# Environment-only requirements. No model dependencies.
 numpy>=1.26.4,<3
-torch>=2.10.0,<3
-safetensors>=0.7.0,<1

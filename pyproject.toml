@@ -8,13 +8,14 @@ version = "0.1.0"
 description = "Bounded multiagent survival research scaffold"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["numpy>=1.26.4,<3", "torch>=2.10.0,<3", "safetensors>=0.7.0,<1"]
+dependencies = ["numpy>=1.26.4,<3"]
 
 [project.optional-dependencies]
-language = ["transformers>=5.10.0,<6", "Jinja2>=3.1.6,<4"]
+agent = ["torch>=2.10.0,<3", "safetensors>=0.7.0,<1"]
+language = ["torch>=2.10.0,<3", "safetensors>=0.7.0,<1", "transformers>=5.10.0,<6", "Jinja2>=3.1.6,<4"]
 
 [tool.setuptools.packages.find]
-include = ["survival_agent*"]
+include = ["survival_agent*", "survival_env*", "survival_adapters*"]
 
 [tool.setuptools.package-data]
 survival_agent = ["configs/*.json", "communication.schema.json"]

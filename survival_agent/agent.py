@@ -1,13 +1,9 @@
-from . import checkpoint_io
 """Tiny shared transformer representation and MuZero-style latent lookahead.
 
 Not full MuZero: exhaustive root actions plus top-2 prior expansion at depth two,
 not MCTS. No pretrained language model, text reasoning or trained policy claimed.
 """
-from dataclasses import asdict
 from copy import deepcopy
-from pathlib import Path
-import os
 import numpy as np
 import torch
 from torch import nn
@@ -97,26 +93,13 @@ def smoke_update(model, optimizer, batch):
     optimizer.step()
     return {k:float(v.detach()) for k,v in losses.items()}
 
-def save_checkpoint(path, model, optimizer, world, rng, history, updates):
-    path=Path(path);temporary=path.with_suffix('.tmp')
-    checkpoint_io.save({'format':1,'spec':model.spec,'model':model.state_dict(),'optimizer':optimizer.state_dict(),
-                'world_config':asdict(world.config),'world':world.state(),'rng':rng.bit_generator.state,
-                'torch_rng':torch.get_rng_state(),'history':history,'updates':updates},temporary)
-    os.replace(temporary,path)
+def save_checkpoint(*args, **kwargs):
+    """Compatibility helper for combined environment/model state."""
+    from survival_adapters.checkpoints import save_checkpoint as save
+    return save(*args, **kwargs)
 
-def load_checkpoint(path):
-    from .simulator import Config, SurvivalWorld
-    # Structured parsing and bounded reconstruction; no pickle fallback.
-    state=checkpoint_io.load(path,map_location='cpu',weights_only=True)
-    if state['format']!=1:raise ValueError('Unsupported checkpoint')
-    config=Config(**state['world_config'])
-    if state['spec']['obs_width']!=2*config.radius+1:raise ValueError('Checkpoint observation/world mismatch')
-    world=SurvivalWorld(0,config)
-    expected=(config.agents,state['spec']['history'],5,state['spec']['obs_width'],state['spec']['obs_width'])
-    if not isinstance(state['history'],np.ndarray) or state['history'].shape!=expected or state['history'].dtype!=np.float32:raise ValueError('Invalid checkpoint history')
-    model=HistoryAgent(**state['spec']);model.load_state_dict(state['model'])
-    optimizer=torch.optim.Adam(model.parameters(),lr=1e-3);optimizer.load_state_dict(state['optimizer'])
-    world.load_state(state['world'])
-    rng=np.random.default_rng();rng.bit_generator.state=state['rng']
-    torch.set_rng_state(state['torch_rng'])
-    return model,optimizer,world,rng,state['history'],state['updates']
+
+def load_checkpoint(*args, **kwargs):
+    """Compatibility helper; model-only callers need not import an environment."""
+    from survival_adapters.checkpoints import load_checkpoint as load
+    return load(*args, **kwargs)

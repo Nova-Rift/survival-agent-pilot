@@ -15,6 +15,8 @@ Pretrained fine-tuning is unsupported. No useful learned survival, emergent coop
 
 ## Bounded scratch checks
 
+These experiment commands were verified before the split. They are intentionally skipped by the current `--no-training` documentation pass. The regression suite tests update/resume behavior after the split without launching an experiment.
+
 These commands use existing local dependencies and scratch weights, CPU threads bounded, no network or pretrained assets. They perform tiny engineering updates. Use fresh output directories; runtime caps are cooperative and shell timeout is the hard process bound.
 
 ```bash
@@ -30,7 +32,7 @@ MuZero reports cumulative optimizer updates and episode counts. Actor-critic's s
 
 [checkpoint_io.py](../survival_agent/checkpoint_io.py) stores schema-validated JSON plus safetensors in a bounded two-member uncompressed archive. It rejects pickle/Torch legacy files, unknown object types, nonfinite scalar metadata, oversized data and unsafe array types. Reconstruction bounds model/world dimensions and validates replay shapes before arithmetic. These guards reduce risk, not a security guarantee.
 
-Only resume checkpoints you control. Cross-version/source changes can intentionally fail provenance checks. Preserve model specification, backend provenance, source hashes, versions, optimizer/replay/RNG and environment state. Never bypass a mismatch by deleting checks. Do not commit checkpoint contents or private run data.
+Only resume checkpoints you control. Cross-version/source changes can intentionally fail provenance checks. This split changes source hashes; earlier source-bound experiment checkpoints may be rejected. No private checkpoints are rewritten. Canonical combined checkpoint code is in `survival_adapters/checkpoints.py`; MuZero CLI checkpoints additionally record a combined collector/world-source hash, while model-only learner state does not depend on environment source. Preserve model specification, backend provenance, source hashes, versions, optimizer/replay/RNG and environment state. Never bypass a mismatch by deleting checks. Do not commit checkpoint contents or private run data.
 
 ## Pretrained prerequisites: not run in documentation verification
 

@@ -5,10 +5,12 @@
 Run from the repository root:
 
 ```bash
-python -B -m scripts.verify_docs
+python -B -m scripts.verify_docs --no-training
 ```
 
 The [verifier source](../scripts/verify_docs.py) inventories every command in `bash` blocks across README and `docs/*.md`, validates local Markdown targets, and invokes an explicit allowlist without shell evaluation. Commands use the current Python interpreter, offline Hugging Face settings and one CPU thread. Each run redirects `runs/` paths into a fresh temporary directory and removes outputs afterward. Identical commands are reported as duplicates. Unknown commands fail until reviewed.
+
+The current pass uses `--no-training`: experiment collection/training/evaluation commands are inventoried but skipped. Regression tests still include tiny deterministic optimizer/resume checks. The verifier without this flag remains an explicit opt-in to bounded scratch experiment commands.
 
 ## Scope
 
@@ -26,7 +28,7 @@ The [verifier source](../scripts/verify_docs.py) inventories every command in `b
 | Regression suite | Execute the full unittest command. Exact next-update checkpoint determinism, rejection boundaries and replay escaping are covered there. |
 | Local links | Check all relative Markdown targets in README and docs exist, including source links and directory navigation. |
 
-The examples exercise real local scratch-model forward/backward passes where applicable. They are engineering checks, not long training or evidence of a useful learned policy. No pretrained model inference, GPU, API or paid resource is used.
+The standalone toy adapter exercises a randomly initialized forward pass. Backward/update checks occur only inside the explicitly requested regression suite in the no-training pass. They are engineering checks, not long training or evidence of a useful learned policy. No pretrained model inference, GPU, API or paid resource is used.
 
 ## Explicitly excluded
 
@@ -42,4 +44,6 @@ The verification runtime uses Python 3.10.12, NumPy 1.26.4, PyTorch 2.2.0+cu121,
 
 See the verifier's JSON output for each exact command, source file/line and passed/skipped/duplicate status. The publication pass is recorded after verification below; rerun after changing any command or example. Keep all runnable shell examples in `bash` fences so they stay in the inventory.
 
-Publication check: 20 distinct bounded commands passed, two repeated example commands reused their passing result, and nine command occurrences were explicitly skipped (six setup instructions, one model-download instruction and two verifier self-invocations). The regression suite passed all 48 tests. Both checkpoint-resume examples, replay generation, the custom policy and toy adapter passed. [Machine-readable results](verification-results.json) contain the exact inventory; temporary run artifacts were removed. These results apply to the legacy runtime above, not a fresh installation.
+The previous documentation publication ran all 20 bounded commands and 48 tests. After the package split, the current no-training pass is recorded in [machine-readable results](verification-results.json): training-related CLI experiments are explicitly skipped, while the full regression suite, import-boundary proofs, nontraining examples, baseline, rendering, help and local links are checked. These results apply to the legacy runtime above, not a fresh installation.
+
+Latest split verification: 13 distinct documentation commands passed, two repeated example commands reused passing results, and 17 occurrences were explicitly skipped by the setup/download/no-training/self-invocation rules. All 52 regression tests passed, including fresh-process dependency barriers and the compatibility MuZero CLI save/resume check with zero optimizer updates. Environment implementation files were checked byte-for-byte against the prior commit. Package TOML metadata parsed with a NumPy-only base and optional agent/language extras; wheel building and clean installation remain untested (the available setuptools is older than the declared build requirement).

@@ -13,14 +13,16 @@ Start reading:
 - [Local pretrained/scratch language backend](survival_agent/language_backend.py)
 - [Language-feature-to-latent controller](survival_agent/integrated.py)
 - [Actor-critic baseline trainer/evaluator](survival_agent/training.py)
-- [Simulator and observation-limited baselines](survival_agent/simulator.py)
+- [Simulator and observation-limited baselines](survival_env/simulator.py)
 - [Developer guide: quickstart, interfaces and extension examples](docs/developers.md)
 - [Security scope and limitations](SECURITY.md)
 
 ## Layout
 
 ```text
-survival_agent/   Models, simulator, training and CLI modules
+survival_env/     NumPy-only simulator, communication and baseline replay
+survival_agent/   Models/search plus compatibility imports and CLI paths
+survival_adapters/  Collectors, experiment runners and checkpoint glue
 tests/            Correctness and security regression tests
 scripts/          Explicit model download and preview utilities
 docs/             Architecture and usage notes
@@ -28,6 +30,8 @@ assets/           Small recorded preview and provenance
 ```
 
 ## Environment
+
+The first working package split is implemented in this repository. Environment-only requirements are in `requirements.txt`; optional model requirements are in `requirements-agent.txt`, and language requirements in `requirements-language.txt`. Base package metadata requires only NumPy; the `agent` and `language` extras add ML libraries. Clean installation of this metadata has not been tested. See [separation status](docs/separation-plan.md).
 
 16×16 grid; eight initially equal agents; move/wait actions; food, hunger and death; 5×5 local observations. Simultaneous contested moves reject all contenders. Reward is one per agent alive after a transition, zero otherwise. Seeded bounded episodes and private observation histories are implemented. Optional plain-text communication is range-limited; no cooperation reward is added.
 

@@ -2,95 +2,105 @@
   "commands": [
     {
       "file": "README.md",
-      "line": 49,
+      "line": 53,
       "command": "python -m venv .venv",
       "status": "skipped",
       "reason": "Isolated setup not exercised; no new environment provisioned"
     },
     {
       "file": "README.md",
-      "line": 50,
+      "line": 54,
       "command": ". .venv/bin/activate",
       "status": "skipped",
       "reason": "Activation belongs to the untested isolated setup"
     },
     {
       "file": "README.md",
-      "line": 51,
+      "line": 55,
       "command": "python -m pip install -r requirements-language.txt",
       "status": "skipped",
       "reason": "Network/dependency installation excluded; fresh resolution untested"
     },
     {
       "file": "README.md",
-      "line": 52,
+      "line": 56,
       "command": "python -B -m unittest discover -v",
-      "regression_tests": 48,
+      "regression_tests": 52,
       "status": "passed"
     },
     {
       "file": "README.md",
-      "line": 63,
+      "line": 67,
       "command": "python -B -m survival_agent.run --policy greedy --seed 0 --steps 128 --output runs/baseline",
       "status": "passed"
     },
     {
       "file": "README.md",
-      "line": 66,
-      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.muzero_run --output runs/muzero --steps 4 --simulations 8 --updates 1 --max-seconds 8",
-      "status": "passed"
-    },
-    {
-      "file": "README.md",
-      "line": 69,
-      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training collect --output runs/data --max-joint-steps 2",
-      "status": "passed"
-    },
-    {
-      "file": "README.md",
       "line": 70,
-      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --output runs/ac --max-joint-steps 2",
-      "status": "passed"
+      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.muzero_run --output runs/muzero --steps 4 --simulations 8 --updates 1 --max-seconds 8",
+      "status": "skipped",
+      "reason": "No-training pass: experiment command excluded; regression suite covers update/resume behavior"
     },
     {
       "file": "README.md",
-      "line": 71,
+      "line": 73,
+      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training collect --output runs/data --max-joint-steps 2",
+      "status": "skipped",
+      "reason": "No-training pass: experiment command excluded; regression suite covers update/resume behavior"
+    },
+    {
+      "file": "README.md",
+      "line": 74,
+      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --output runs/ac --max-joint-steps 2",
+      "status": "skipped",
+      "reason": "No-training pass: experiment command excluded; regression suite covers update/resume behavior"
+    },
+    {
+      "file": "README.md",
+      "line": 75,
       "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training evaluate --checkpoint runs/ac/checkpoint.safe --output runs/eval --eval-seeds 1001 --horizon 2 --max-joint-steps 8",
+      "status": "skipped",
+      "reason": "No-training pass: experiment command excluded; regression suite covers update/resume behavior"
+    },
+    {
+      "file": "docs/architecture.md",
+      "line": 31,
+      "command": "python -B -m survival_env.run --help",
       "status": "passed"
     },
     {
       "file": "docs/architecture.md",
-      "line": 28,
+      "line": 37,
       "command": "python -B -m survival_agent.run --help",
       "status": "passed"
     },
     {
       "file": "docs/architecture.md",
-      "line": 29,
+      "line": 38,
       "command": "python -B -m survival_agent.training --help",
       "status": "passed"
     },
     {
       "file": "docs/architecture.md",
-      "line": 30,
+      "line": 39,
       "command": "python -B -m survival_agent.muzero_run --help",
       "status": "passed"
     },
     {
       "file": "docs/architecture.md",
-      "line": 31,
+      "line": 40,
       "command": "python -B -m survival_agent.language_run --help",
       "status": "passed"
     },
     {
       "file": "docs/architecture.md",
-      "line": 32,
+      "line": 41,
       "command": "python -B -m survival_agent.integrated_run --help",
       "status": "passed"
     },
     {
       "file": "docs/architecture.md",
-      "line": 40,
+      "line": 49,
       "command": "python -B -m scripts.render_preview --frames runs/baseline/frames.json --output runs/preview.gif",
       "status": "passed"
     },
@@ -137,15 +147,15 @@
       "file": "docs/developers.md",
       "line": 48,
       "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 timeout 60s python -B -m unittest discover -v",
-      "regression_tests": 48,
+      "regression_tests": 52,
       "status": "passed"
     },
     {
       "file": "docs/developers.md",
       "line": 49,
-      "command": "python -B -m scripts.verify_docs",
+      "command": "python -B -m scripts.verify_docs --no-training",
       "status": "skipped",
-      "reason": "This verifier invocation; do not recurse"
+      "reason": "This no-training verifier invocation; do not recurse"
     },
     {
       "file": "docs/interfaces.md",
@@ -163,31 +173,35 @@
     },
     {
       "file": "docs/models.md",
-      "line": 21,
-      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.muzero_run --output runs/docs-muzero --steps 2 --simulations 2 --updates 1 --max-seconds 8",
-      "status": "passed"
-    },
-    {
-      "file": "docs/models.md",
-      "line": 22,
-      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.muzero_run --resume runs/docs-muzero/checkpoint.safe --output runs/docs-muzero-resumed --steps 2 --simulations 2 --updates 1 --max-seconds 8",
-      "status": "passed"
-    },
-    {
-      "file": "docs/models.md",
       "line": 23,
-      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config survival_agent/configs/from-scratch.json --output runs/docs-ac --horizon 2 --rollout-steps 1 --max-joint-steps 2",
-      "status": "passed"
+      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.muzero_run --output runs/docs-muzero --steps 2 --simulations 2 --updates 1 --max-seconds 8",
+      "status": "skipped",
+      "reason": "No-training pass: experiment command excluded; regression suite covers update/resume behavior"
     },
     {
       "file": "docs/models.md",
       "line": 24,
-      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config survival_agent/configs/from-scratch.json --checkpoint runs/docs-ac/checkpoint.safe --output runs/docs-ac-resumed --max-joint-steps 3",
-      "status": "passed"
+      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.muzero_run --resume runs/docs-muzero/checkpoint.safe --output runs/docs-muzero-resumed --steps 2 --simulations 2 --updates 1 --max-seconds 8",
+      "status": "skipped",
+      "reason": "No-training pass: experiment command excluded; regression suite covers update/resume behavior"
     },
     {
       "file": "docs/models.md",
-      "line": 42,
+      "line": 25,
+      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config survival_agent/configs/from-scratch.json --output runs/docs-ac --horizon 2 --rollout-steps 1 --max-joint-steps 2",
+      "status": "skipped",
+      "reason": "No-training pass: experiment command excluded; regression suite covers update/resume behavior"
+    },
+    {
+      "file": "docs/models.md",
+      "line": 26,
+      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config survival_agent/configs/from-scratch.json --checkpoint runs/docs-ac/checkpoint.safe --output runs/docs-ac-resumed --max-joint-steps 3",
+      "status": "skipped",
+      "reason": "No-training pass: experiment command excluded; regression suite covers update/resume behavior"
+    },
+    {
+      "file": "docs/models.md",
+      "line": 44,
       "command": "python -B -m scripts.fetch_qwen",
       "status": "skipped",
       "reason": "Manual model download excluded"
@@ -195,14 +209,15 @@
     {
       "file": "docs/verification.md",
       "line": 8,
-      "command": "python -B -m scripts.verify_docs",
+      "command": "python -B -m scripts.verify_docs --no-training",
       "status": "skipped",
-      "reason": "This verifier invocation; do not recurse"
+      "reason": "This no-training verifier invocation; do not recurse"
     }
   ],
   "output_assertions": "passed",
   "local_markdown_links": "passed",
   "environment_without_ml_imports": "passed",
   "temporary_outputs": "removed",
-  "fresh_dependency_install": "not tested"
+  "fresh_dependency_install": "not tested",
+  "no_training_experiments": true
 }

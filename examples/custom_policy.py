@@ -1,7 +1,7 @@
 """Run a third-party-style scripted policy against the existing world API."""
 import json
 import numpy as np
-from survival_agent.simulator import Config, SurvivalWorld
+from survival_env.simulator import Config, SurvivalWorld
 
 
 def wait_policy(observations, rng):

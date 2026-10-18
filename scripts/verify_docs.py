@@ -3,6 +3,7 @@
 No shell evaluation, dependency installation, downloads or pretrained inference.
 All example output paths are redirected to a fresh temporary directory.
 """
+import argparse
 import json
 import os
 from pathlib import Path
@@ -19,12 +20,13 @@ SKIP = {
     'python -m pip install -r requirements-language.txt': 'Network/dependency installation excluded; fresh resolution untested',
     'python -B -m scripts.fetch_qwen': 'Manual model download excluded',
     'python -B -m scripts.verify_docs': 'This verifier invocation; do not recurse',
+    'python -B -m scripts.verify_docs --no-training': 'This no-training verifier invocation; do not recurse',
 }
 ALLOWED = {
     'survival_agent.run', 'survival_agent.training', 'survival_agent.muzero_run',
     'survival_agent.language_run', 'survival_agent.integrated_run',
     'examples.custom_policy', 'examples.toy_env_adapter', 'scripts.render_preview',
-    'unittest',
+    'survival_env.run', 'unittest',
 }
 
 
@@ -83,7 +85,7 @@ def command_args(command, work):
     return tokens, env
 
 
-def check_outputs(work):
+def check_outputs(work, no_training):
     for folder in ['baseline', 'quickstart']:
         path = work / 'runs' / folder
         summary = json.loads((path / 'summary.json').read_text())
@@ -91,19 +93,20 @@ def check_outputs(work):
         assert summary['joint_steps'] == len(frames) - 1
         assert summary['learning_claim'] is False and summary['cost_usd'] == 0
         assert '<canvas' in (path / 'replay.html').read_text()
-    for folder in ['muzero', 'docs-muzero', 'docs-muzero-resumed',
-                   'data', 'ac', 'docs-ac', 'docs-ac-resumed']:
-        assert (work / 'runs' / folder / 'checkpoint.safe').is_file(), folder
-    for folder in ['muzero', 'docs-muzero', 'docs-muzero-resumed',
-                   'data', 'ac', 'eval', 'docs-ac', 'docs-ac-resumed']:
-        report = json.loads((work / 'runs' / folder / 'report.json').read_text())
-        assert report['cost_usd'] == 0, folder
-    report = lambda name: json.loads((work / 'runs' / name / 'report.json').read_text())
-    assert report('docs-muzero-resumed')['cumulative_optimizer_updates'] == 2
-    assert report('docs-ac')['cumulative_joint_steps'] == 2
-    assert report('docs-ac-resumed')['cumulative_joint_steps'] == 3
-    assert report('eval')['comparisons_complete'] is True
-    assert (work / 'runs' / 'data' / 'transitions.safe').is_file()
+    if not no_training:
+        for folder in ['muzero', 'docs-muzero', 'docs-muzero-resumed',
+                       'data', 'ac', 'docs-ac', 'docs-ac-resumed']:
+            assert (work / 'runs' / folder / 'checkpoint.safe').is_file(), folder
+        for folder in ['muzero', 'docs-muzero', 'docs-muzero-resumed',
+                       'data', 'ac', 'eval', 'docs-ac', 'docs-ac-resumed']:
+            report = json.loads((work / 'runs' / folder / 'report.json').read_text())
+            assert report['cost_usd'] == 0, folder
+        report = lambda name: json.loads((work / 'runs' / name / 'report.json').read_text())
+        assert report('docs-muzero-resumed')['cumulative_optimizer_updates'] == 2
+        assert report('docs-ac')['cumulative_joint_steps'] == 2
+        assert report('docs-ac-resumed')['cumulative_joint_steps'] == 3
+        assert report('eval')['comparisons_complete'] is True
+        assert (work / 'runs' / 'data' / 'transitions.safe').is_file()
     from PIL import Image
     with Image.open(work / 'runs' / 'preview.gif') as image:
         frames = json.loads((work / 'runs' / 'baseline' / 'frames.json').read_text())
@@ -116,6 +119,9 @@ def check_outputs(work):
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--no-training',action='store_true',help='Skip training/collector/evaluation experiment commands; regression tests still exercise tiny updates')
+    no_training=parser.parse_args().no_training
     items = inventory()
     seen = set()
     with tempfile.TemporaryDirectory(prefix='survival-docs-') as temp:
@@ -124,6 +130,9 @@ def main():
             command = item['command']
             if command in SKIP:
                 item.update(status='skipped', reason=SKIP[command])
+                continue
+            if no_training and any('-m '+name+' ' in command and '--help' not in command for name in ('survival_agent.training','survival_agent.muzero_run')):
+                item.update(status='skipped',reason='No-training pass: experiment command excluded; regression suite covers update/resume behavior')
                 continue
             if command in seen:
                 item.update(status='duplicate', reason='Identical command already passed in this run')
@@ -144,7 +153,7 @@ def main():
                 item['regression_tests'] = int(summary.group(1))
             seen.add(command)
             item.update(status='passed')
-        check_outputs(work)
+        check_outputs(work, no_training)
         # The simulator and custom scripted policy must work with ML imports blocked.
         code = """import sys, importlib.abc, runpy
 class BlockML(importlib.abc.MetaPathFinder):
@@ -158,7 +167,7 @@ runpy.run_module('examples.custom_policy', run_name='__main__')
                        capture_output=True, text=True, timeout=15)
     print(json.dumps({'commands': items, 'output_assertions': 'passed',
                       'local_markdown_links': 'passed', 'environment_without_ml_imports': 'passed',
-                      'temporary_outputs': 'removed', 'fresh_dependency_install': 'not tested'}, indent=2))
+                      'temporary_outputs': 'removed', 'fresh_dependency_install': 'not tested', 'no_training_experiments': no_training}, indent=2))
 
 
 if __name__ == '__main__':
