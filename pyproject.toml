@@ -16,4 +16,3 @@ language = ["torch>=2.10.0,<3", "safetensors>=0.7.0,<1", "transformers>=5.10.0,<
 
 [tool.setuptools.packages.find]
 include = ["survival_adapters*"]
-
