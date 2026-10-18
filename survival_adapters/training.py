@@ -4,6 +4,7 @@ NOT full MuZero: no MCTS targets, replay training, recurrent unroll or encoder t
 The encoder is always frozen, even with the pretrained config. CPU-only entrypoints.
 """
 import argparse
+import survival_agent
 from copy import deepcopy
 from dataclasses import asdict,dataclass,replace
 import hashlib
@@ -35,9 +36,12 @@ class TrainConfig:
         if self.learning_rate<=0 or not 0<self.gamma<=1 or not 0<=self.target_ema<1:raise ValueError('Invalid learning parameters')
 
 def source_hashes():
-    root=Path(__file__).parent.parent
-    paths=['survival_adapters/training.py','survival_agent/integrated.py','survival_agent/language_backend.py','survival_env/simulator.py']
-    return {name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in paths}
+    import inspect
+    sources={'training.py':Path(__file__), 'integrated.py':Path(inspect.getfile(IntegratedController)),
+             'language_backend.py':Path(inspect.getfile(LocalLanguageBackend)),
+             'simulator.py':Path(inspect.getfile(SurvivalWorld))}
+    return {name:hashlib.sha256(path.read_bytes()).hexdigest() for name,path in sources.items()}
+
 
 def runtime_versions():return {'python':platform.python_version(),'torch':torch.__version__,'numpy':np.__version__}
 
@@ -176,7 +180,7 @@ def evaluate(backend,state,seeds=(1001,1002),horizon=32,max_joint_steps=256,max_
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command',choices=['collect','train','evaluate'])
-    parser.add_argument('--config',default=str(Path(__file__).parent.parent/'survival_agent'/'configs/from-scratch.json'),help='Frozen encoder config; scratch default for bounded local checks')
+    parser.add_argument('--config',default=str(Path(survival_agent.__file__).parent/'configs/from-scratch.json'),help='Frozen encoder config; scratch default for bounded local checks')
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--checkpoint',type=Path,help='Resume for train; required for evaluate (trusted local file only)')
     parser.add_argument('--max-joint-steps',type=int,default=8)

@@ -8,30 +8,28 @@ A small, inspectable multiagent survival research scaffold. **This is an enginee
 
 Start reading:
 
-- [MuZero-style model, PUCT MCTS, replay and recurrent losses](survival_agent/muzero.py)
-- [Small transformer-history agent](survival_agent/agent.py)
-- [Local pretrained/scratch language backend](survival_agent/language_backend.py)
-- [Language-feature-to-latent controller](survival_agent/integrated.py)
-- [Actor-critic baseline trainer/evaluator](survival_agent/training.py)
-- [Simulator and observation-limited baselines](survival_env/simulator.py)
+- [MuZero-style model, PUCT MCTS, replay and recurrent losses](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/muzero.py)
+- [Small transformer-history agent](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/agent.py)
+- [Local pretrained/scratch language backend](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/language_backend.py)
+- [Language-feature-to-latent controller](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/integrated.py)
+- [Actor-critic baseline trainer/evaluator](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/training.py)
+- [Simulator and observation-limited baselines](https://github.com/Nova-Rift/survival-env/blob/main/survival_env/simulator.py)
 - [Developer guide: quickstart, interfaces and extension examples](docs/developers.md)
 - [Security scope and limitations](SECURITY.md)
 
-## Layout
+## Repositories and ownership
 
-```text
-survival_env/     NumPy-only simulator, communication and baseline replay
-survival_agent/   Models/search plus compatibility imports and CLI paths
-survival_adapters/  Collectors, experiment runners and checkpoint glue
-tests/            Correctness and security regression tests
-scripts/          Explicit model download and preview utilities
-docs/             Architecture and usage notes
-assets/           Small recorded preview and provenance
-```
+| Repository | Canonical source |
+|---|---|
+| [survival-env](https://github.com/Nova-Rift/survival-env) | NumPy-only environment, communication, recording and baseline runner. |
+| [survival-agent](https://github.com/Nova-Rift/survival-agent) | Model/search/backend/serialization code and legacy forwarding imports. |
+| This pilot repository | `survival_adapters/`, examples, integration tests, documentation and recorded demo assets. |
+
+There are no independently maintained copies of the environment or model source here. Earlier commits and URLs remain in this repository's history. [Source pins and local workflow](docs/repositories.md) identify exactly which extracted commits are used.
 
 ## Environment
 
-The first working package split is implemented in this repository. Environment-only requirements are in `requirements.txt`; optional model requirements are in `requirements-agent.txt`, and language requirements in `requirements-language.txt`. Base package metadata requires only NumPy; the `agent` and `language` extras add ML libraries. Clean installation of this metadata has not been tested. See [separation status](docs/separation-plan.md).
+Environment and model source are owned by separate repositories. Clone them as siblings before running integration commands. Dependency installation and a fresh resolved environment remain untested.
 
 16×16 grid; eight initially equal agents; move/wait actions; food, hunger and death; 5×5 local observations. Simultaneous contested moves reject all contenders. Reward is one per agent alive after a transition, zero otherwise. Seeded bounded episodes and private observation histories are implemented. Optional plain-text communication is range-limited; no cooperation reward is added.
 
@@ -44,6 +42,8 @@ Scratch MuZero training updates its small observation transformer, dynamics and 
 Pretrained language defaults to Qwen/Qwen2.5-0.5B-Instruct at revision `7ae557604adf67be50417f59c2c2f167def9a775`. Weights are not included. Loading is local-directory-only, safetensors-only and `trust_remote_code=False`. The optional `scripts/fetch_qwen.py` helper downloads only that pinned official artifact when explicitly invoked. The model's license is Apache-2.0; no project license has been selected.
 
 ## Local setup
+
+First follow the [three-checkout workflow](docs/repositories.md). The shell examples assume the sibling checkout paths are available through `PYTHONPATH`.
 
 Clean installation with the recommended versions is not yet verified. See the [developer setup and test status](docs/developers.md). The commands below are setup instructions, not a claim that a fresh environment was tested.
 

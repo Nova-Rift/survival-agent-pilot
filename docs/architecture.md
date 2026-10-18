@@ -2,28 +2,28 @@
 
 [Developer index](developers.md) · [Current interfaces](interfaces.md) · [Separation status](separation-plan.md)
 
-Three importable packages share the existing distribution: `survival_env` (NumPy-only mechanics), `survival_agent` (model/search code), and `survival_adapters` (integration). No algorithm or world rules were changed. Old module paths forward for compatibility.
+Canonical `survival_env` and `survival_agent` packages now come from separate sibling repositories. This checkout contains `survival_adapters`, examples and integration tests. [Repository ownership and pins](repositories.md) describe the source boundary. World behavior was not changed.
 
 | Path | Responsibility |
 |---|---|
-| [simulator.py](../survival_env/simulator.py) | Local observations, seeded world transitions, collision rules, random/greedy baselines. |
-| [communication.py](../survival_env/communication.py) | Optional local plain-text transport. |
-| [agent.py](../survival_agent/agent.py) | Small history transformer and shallow latent lookahead. |
-| [language_backend.py](../survival_agent/language_backend.py) | Local pretrained or random byte-vocabulary language mode; no implicit downloads. |
-| [integrated.py](../survival_agent/integrated.py) | Frozen features to trainable latent model and bounded actions. |
+| [simulator.py](https://github.com/Nova-Rift/survival-env/blob/main/survival_env/simulator.py) | Local observations, seeded world transitions, collision rules, random/greedy baselines. |
+| [communication.py](https://github.com/Nova-Rift/survival-env/blob/main/survival_env/communication.py) | Optional local plain-text transport. |
+| [agent.py](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/agent.py) | Small history transformer and shallow latent lookahead. |
+| [language_backend.py](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/language_backend.py) | Local pretrained or random byte-vocabulary language mode; no implicit downloads. |
+| [integrated.py](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/integrated.py) | Frozen features to trainable latent model and bounded actions. |
 | [training.py](../survival_adapters/training.py) | On-policy actor-critic collection, updates and held-out evaluation. |
-| [muzero.py](../survival_agent/muzero.py) | Minimal PUCT MCTS, visit targets, episode replay and recurrent learner. |
+| [muzero.py](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/muzero.py) | Minimal PUCT MCTS, visit targets, episode replay and recurrent learner. |
 | [collectors.py](../survival_adapters/collectors.py) | Survival-specific MuZero collection. |
 | [checkpoints.py](../survival_adapters/checkpoints.py) | Combined world/model reconstruction and resume. |
 | [toy.py](../survival_adapters/toy.py) | Independent five-arm toy adapter. |
-| [checkpoint_io.py](../survival_agent/checkpoint_io.py) | Structured safetensors/JSON serialization and bounds. |
-| [configs/](../survival_agent/configs/) | Explicit scratch/pretrained configuration. |
+| [checkpoint_io.py](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/checkpoint_io.py) | Structured safetensors/JSON serialization and bounds. |
+| [configs/](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/configs/) | Explicit scratch/pretrained configuration. |
 | [examples/](../examples/) | Small runnable custom-policy and toy-adapter examples. |
 | [tests/](../tests/) | Correctness, exact resume, privacy and security regressions. |
 | [scripts/](../scripts/) | Explicit download, rendering and docs verification utilities. |
 | [assets/](../assets/) | Recorded README GIF and provenance. |
 
-Model files belong in the ignored project-level `models/` folder. Checkpoints and run datasets belong in ignored `runs/` folders, not Git. See [model modes](models.md) before loading anything.
+Model files belong in the canonical agent checkout’s ignored `models/` folder. The explicit fetch helper targets that path; it was not run during this split. Checkpoints and run datasets belong in ignored `runs/` folders, not Git. See [model modes](models.md) before loading anything.
 
 The canonical baseline entry point is below; the old `survival_agent.run` CLI continues to work.
 

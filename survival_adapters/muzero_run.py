@@ -1,6 +1,7 @@
 from survival_agent import checkpoint_io
 """A bounded local MuZero-style episode-replay/unroll smoke command, not a study."""
 import argparse
+from survival_env import simulator
 import hashlib
 import json
 import os
@@ -40,7 +41,7 @@ def main():
     start=time.monotonic();deadline=start+args.max_seconds;backend=None
     if args.backend_config:backend=LocalLanguageBackend(read_config(args.backend_config))
     # Combined-run provenance binds both collection and concrete world rules.
-    context_paths=[Path(__file__).with_name('collectors.py'),Path(__file__).parent.parent/'survival_env'/'simulator.py']
+    context_paths=[Path(__file__).with_name('collectors.py'),Path(simulator.__file__)]
     collector_hash=hashlib.sha256(b''.join(path.read_bytes() for path in context_paths)).hexdigest()
     saved=checkpoint_io.load(args.resume,map_location='cpu',weights_only=True) if args.resume else None
     if saved and saved.get('collector_hash')!=collector_hash:parser.error('Collector provenance mismatch')

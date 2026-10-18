@@ -8,14 +8,12 @@ version = "0.1.0"
 description = "Bounded multiagent survival research scaffold"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["numpy>=1.26.4,<3"]
+dependencies = ["survival-env @ git+https://github.com/Nova-Rift/survival-env.git@3915226ceabc42e4548fc3b4b45bf146c408755b", "survival-agent @ git+https://github.com/Nova-Rift/survival-agent.git@e3007112887c25b2d17a7a7c3576d53322ceccd2"]
 
 [project.optional-dependencies]
 agent = ["torch>=2.10.0,<3", "safetensors>=0.7.0,<1"]
 language = ["torch>=2.10.0,<3", "safetensors>=0.7.0,<1", "transformers>=5.10.0,<6", "Jinja2>=3.1.6,<4"]
 
 [tool.setuptools.packages.find]
-include = ["survival_agent*", "survival_env*", "survival_adapters*"]
+include = ["survival_adapters*"]
 
-[tool.setuptools.package-data]
-survival_agent = ["configs/*.json", "communication.schema.json"]

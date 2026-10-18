@@ -4,6 +4,7 @@ No downloads, training, tools, APIs or world rollout. Run with an external timeo
 from dataclasses import replace
 from datetime import datetime,timezone
 import json
+import survival_agent
 from pathlib import Path
 import resource
 import time
@@ -14,7 +15,7 @@ from survival_agent.language_backend import LocalLanguageBackend, read_config, p
 def main():
     torch.set_num_threads(1);torch.set_num_interop_threads(1)
     start=time.perf_counter()
-    backend=LocalLanguageBackend(replace(read_config(Path(__file__).parent.parent/'survival_agent'/'configs'/'pretrained.json'),max_new_tokens=32))
+    backend=LocalLanguageBackend(replace(read_config(Path(survival_agent.__file__).parent/'configs'/'pretrained.json'),max_new_tokens=32))
     loaded=time.perf_counter()
     prompt=INSTRUCTION+'\n'+json.dumps({'your_past_turns':[],'current':{'view':local_view(SurvivalWorld(0).observe()[0]),'received_messages':[]}},separators=(',',':'))
     output=backend.generate(prompt,seed=0)

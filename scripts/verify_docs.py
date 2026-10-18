@@ -15,6 +15,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parent.parent
 SKIP = {
+    'export PYTHONPATH="../survival-env:../survival-agent"': 'Source-path prerequisite supplied by the caller; not a dependency installation',
     'python -m venv .venv': 'Isolated setup not exercised; no new environment provisioned',
     '. .venv/bin/activate': 'Activation belongs to the untested isolated setup',
     'python -m pip install -r requirements-language.txt': 'Network/dependency installation excluded; fresh resolution untested',

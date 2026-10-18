@@ -1,4 +1,2 @@
--r requirements.txt
-# Security-oriented model minimums; modern combination not fully tested.
-torch>=2.10.0,<3
-safetensors>=0.7.0,<1
+# Agent requirements are owned by the canonical source repository.
+-r ../survival-agent/requirements.txt

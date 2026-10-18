@@ -2,6 +2,7 @@
 This runner never downloads anything and does not invoke latent/MuZero planning.
 """
 import argparse
+import survival_agent
 from dataclasses import asdict, replace
 import json
 from pathlib import Path
@@ -13,7 +14,7 @@ from survival_agent.language_backend import LocalLanguageBackend, LanguageContro
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--config',default=str(Path(__file__).parent.parent/'survival_agent'/'configs'/'pretrained.json'))
+    parser.add_argument('--config',default=str(Path(survival_agent.__file__).parent/'configs'/'pretrained.json'))
     parser.add_argument('--steps',type=int,default=1)
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()

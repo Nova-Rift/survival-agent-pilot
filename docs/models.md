@@ -22,15 +22,15 @@ These commands use existing local dependencies and scratch weights, CPU threads 
 ```bash
 OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.muzero_run --output runs/docs-muzero --steps 2 --simulations 2 --updates 1 --max-seconds 8
 OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.muzero_run --resume runs/docs-muzero/checkpoint.safe --output runs/docs-muzero-resumed --steps 2 --simulations 2 --updates 1 --max-seconds 8
-OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config survival_agent/configs/from-scratch.json --output runs/docs-ac --horizon 2 --rollout-steps 1 --max-joint-steps 2
-OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config survival_agent/configs/from-scratch.json --checkpoint runs/docs-ac/checkpoint.safe --output runs/docs-ac-resumed --max-joint-steps 3
+OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config ../survival-agent/survival_agent/configs/from-scratch.json --output runs/docs-ac --horizon 2 --rollout-steps 1 --max-joint-steps 2
+OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config ../survival-agent/survival_agent/configs/from-scratch.json --checkpoint runs/docs-ac/checkpoint.safe --output runs/docs-ac-resumed --max-joint-steps 3
 ```
 
 MuZero reports cumulative optimizer updates and episode counts. Actor-critic's step cap is cumulative on resume: the second command must exceed the saved joint-step count. MuZero replay resume is at episode boundaries. Exact next-update determinism is covered by [test_muzero.py](../tests/test_muzero.py) and [test_training.py](../tests/test_training.py).
 
 ## Loading boundaries
 
-[checkpoint_io.py](../survival_agent/checkpoint_io.py) stores schema-validated JSON plus safetensors in a bounded two-member uncompressed archive. It rejects pickle/Torch legacy files, unknown object types, nonfinite scalar metadata, oversized data and unsafe array types. Reconstruction bounds model/world dimensions and validates replay shapes before arithmetic. These guards reduce risk, not a security guarantee.
+[checkpoint_io.py](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/checkpoint_io.py) stores schema-validated JSON plus safetensors in a bounded two-member uncompressed archive. It rejects pickle/Torch legacy files, unknown object types, nonfinite scalar metadata, oversized data and unsafe array types. Reconstruction bounds model/world dimensions and validates replay shapes before arithmetic. These guards reduce risk, not a security guarantee.
 
 Only resume checkpoints you control. Cross-version/source changes can intentionally fail provenance checks. This split changes source hashes; earlier source-bound experiment checkpoints may be rejected. No private checkpoints are rewritten. Canonical combined checkpoint code is in `survival_adapters/checkpoints.py`; MuZero CLI checkpoints additionally record a combined collector/world-source hash, while model-only learner state does not depend on environment source. Preserve model specification, backend provenance, source hashes, versions, optimizer/replay/RNG and environment state. Never bypass a mismatch by deleting checks. Do not commit checkpoint contents or private run data.
 

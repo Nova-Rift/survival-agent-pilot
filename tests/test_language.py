@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import socket
 import tempfile
+import survival_agent
 import unittest
 from unittest.mock import patch
 import numpy as np
@@ -92,7 +93,7 @@ class RealModelFixtureTests(unittest.TestCase):
             with self.assertRaises(RuntimeError):LocalLanguageBackend(BackendConfig(model_name_or_path=d))
         with self.assertRaises(ValueError):LocalLanguageBackend(BackendConfig(model_name_or_path='https://example.invalid/model'))
         self.assertEqual(BackendConfig().mode,'pretrained')
-        self.assertEqual(read_config('survival_agent/configs/pretrained.json').mode,'pretrained')
-        self.assertEqual(read_config('survival_agent/configs/from-scratch.json').mode,'from_scratch')
+        self.assertEqual(read_config(Path(survival_agent.__file__).parent/'configs/pretrained.json').mode,'pretrained')
+        self.assertEqual(read_config(Path(survival_agent.__file__).parent/'configs/from-scratch.json').mode,'from_scratch')
 
 if __name__=='__main__':unittest.main()

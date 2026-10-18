@@ -3,6 +3,7 @@ from survival_agent import checkpoint_io
 Use tiny scratch mode for cheap engineering checks; no training/downloads occur.
 """
 import argparse
+import survival_agent
 from dataclasses import asdict,replace
 import json
 from pathlib import Path
@@ -38,7 +39,7 @@ def episode(backend,steps=1,planning=True,speech=False,seed=0):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--config',default=str(Path(__file__).parent.parent/'survival_agent'/'configs/pretrained.json'))
+    parser.add_argument('--config',default=str(Path(survival_agent.__file__).parent/'configs/pretrained.json'))
     parser.add_argument('--steps',type=int,default=1)
     parser.add_argument('--no-planning',action='store_true')
     parser.add_argument('--speech',action='store_true',help='Optional slow text generation; cannot override chosen action')

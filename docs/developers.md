@@ -1,6 +1,6 @@
 # Developer guide
 
-The first package split is implemented: `survival_env` contains mechanics, `survival_agent` contains models/search, and `survival_adapters` contains integration. Existing CLI/import paths forward to these implementations. All commands below run from the repository root on a POSIX shell with Python 3.10+; `timeout` is the GNU utility. Windows users can use WSL. Output folders must be new.
+Environment and agent source now live in separate repositories; this repository owns integration. Follow the [three-checkout workflow](repositories.md) before these commands. All commands below run from the repository root on a POSIX shell with Python 3.10+; `timeout` is the GNU utility. Windows users can use WSL. Output folders must be new.
 
 - [Current interfaces and extension examples](interfaces.md)
 - [Models, checkpoints and provenance](models.md)
@@ -21,7 +21,7 @@ python -m venv .venv
 python -m pip install -r requirements-language.txt
 ```
 
-For environment-only use, `requirements.txt` and the base package metadata require only NumPy. `requirements-agent.txt` adds Torch/safetensors; `requirements-language.txt` adds Transformers/Jinja2. Package extras `agent` and `language` expose the same distinction. There is one distribution containing three importable packages, not separately published distributions. No install or dependency resolution was performed for this split.
+Environment-only requirements live in the environment repo; model and optional language requirements live in the agent repo. Integration metadata pins the two source commits. Independent source tests pass; no fresh installation was performed.
 
 ## First run
 

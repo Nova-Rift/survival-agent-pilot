@@ -4,7 +4,7 @@
 
 ## Existing environment API
 
-See [simulator.py](../survival_env/simulator.py). `SurvivalWorld(seed=0, config=Config())` initializes an episode; there is currently **no `reset()` method**. Construct another world to restart. `observe()` returns a fresh `float32` array of shape `(agents, 5, 2*radius+1, 2*radius+1)`, normally `(8, 5, 5, 5)`.
+See [simulator.py](https://github.com/Nova-Rift/survival-env/blob/main/survival_env/simulator.py). `SurvivalWorld(seed=0, config=Config())` initializes an episode; there is currently **no `reset()` method**. Construct another world to restart. `observe()` returns a fresh `float32` array of shape `(agents, 5, 2*radius+1, 2*radius+1)`, normally `(8, 5, 5, 5)`.
 
 Channels are food, self-at-center, another living agent, valid in-bounds cell, and own hunger divided by maximum hunger. Dead agents have all-zero observations. Policies must not read world positions, food maps or other agents' histories. `frame()` and `state()` are privileged replay/checkpoint tools.
 
@@ -34,7 +34,7 @@ python -B -m examples.toy_env_adapter
 
 The example does not prove a whole trainer can switch environments. Survival-specific collectors now live in `survival_adapters` and still create `SurvivalWorld`, use eight agents, and depend on survival formatting. `HistoryAgent` expects history tensors `(batch, history, 5, obs_width, obs_width)` and five actions; the standard path uses history 4 and width 5. Language controllers additionally require the default local-grid semantics. Other observations need an honest task-specific encoder; other action counts or continuous controls need model changes.
 
-Optional [LocalCommunication](../survival_env/communication.py) is environment-side transport: bounded plain text, local range, next-step expiry and delivery only to survivors. It does not execute messages, shape rewards or expose world coordinates to policies.
+Optional [LocalCommunication](https://github.com/Nova-Rift/survival-env/blob/main/survival_env/communication.py) is environment-side transport: bounded plain text, local range, next-step expiry and delivery only to survivors. It does not execute messages, shape rewards or expose world coordinates to policies.
 
 ## Implemented dependency boundaries
 

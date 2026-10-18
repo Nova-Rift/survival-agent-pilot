@@ -2,6 +2,7 @@
 Not invoked by the backend, tests or simulation runner. No executable code fetched.
 """
 import hashlib
+import survival_agent
 import json
 import os
 from pathlib import Path
@@ -10,7 +11,7 @@ import urllib.request
 
 REPO='Qwen/Qwen2.5-0.5B-Instruct'
 REVISION='7ae557604adf67be50417f59c2c2f167def9a775'
-DEST=Path(__file__).parent.parent/'models'/'qwen2.5-0.5b-instruct'
+DEST=Path(survival_agent.__file__).parent.parent/'models'/'qwen2.5-0.5b-instruct'
 ALLOWED={'config.json','generation_config.json','tokenizer.json','tokenizer_config.json',
          'vocab.json','merges.txt','special_tokens_map.json','LICENSE','model.safetensors'}
 

@@ -188,14 +188,14 @@
     {
       "file": "docs/models.md",
       "line": 25,
-      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config survival_agent/configs/from-scratch.json --output runs/docs-ac --horizon 2 --rollout-steps 1 --max-joint-steps 2",
+      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config ../survival-agent/survival_agent/configs/from-scratch.json --output runs/docs-ac --horizon 2 --rollout-steps 1 --max-joint-steps 2",
       "status": "skipped",
       "reason": "No-training pass: experiment command excluded; regression suite covers update/resume behavior"
     },
     {
       "file": "docs/models.md",
       "line": 26,
-      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config survival_agent/configs/from-scratch.json --checkpoint runs/docs-ac/checkpoint.safe --output runs/docs-ac-resumed --max-joint-steps 3",
+      "command": "OMP_NUM_THREADS=1 timeout 20s python -B -m survival_agent.training train --config ../survival-agent/survival_agent/configs/from-scratch.json --checkpoint runs/docs-ac/checkpoint.safe --output runs/docs-ac-resumed --max-joint-steps 3",
       "status": "skipped",
       "reason": "No-training pass: experiment command excluded; regression suite covers update/resume behavior"
     },
@@ -205,6 +205,34 @@
       "command": "python -B -m scripts.fetch_qwen",
       "status": "skipped",
       "reason": "Manual model download excluded"
+    },
+    {
+      "file": "docs/repositories.md",
+      "line": 18,
+      "command": "export PYTHONPATH=\"../survival-env:../survival-agent\"",
+      "status": "skipped",
+      "reason": "Source-path prerequisite supplied by the caller; not a dependency installation"
+    },
+    {
+      "file": "docs/repositories.md",
+      "line": 19,
+      "command": "python -B -m examples.custom_policy",
+      "status": "duplicate",
+      "reason": "Identical command already passed in this run"
+    },
+    {
+      "file": "docs/repositories.md",
+      "line": 20,
+      "command": "python -B -m examples.toy_env_adapter",
+      "status": "duplicate",
+      "reason": "Identical command already passed in this run"
+    },
+    {
+      "file": "docs/repositories.md",
+      "line": 21,
+      "command": "python -B -m scripts.verify_docs --no-training",
+      "status": "skipped",
+      "reason": "This no-training verifier invocation; do not recurse"
     },
     {
       "file": "docs/verification.md",

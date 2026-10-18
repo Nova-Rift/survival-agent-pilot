@@ -1,2 +1,3 @@
-# Environment-only requirements. No model dependencies.
-numpy>=1.26.4,<3
+# Local sibling sources; no PyPI package is implied. Install dependencies separately.
+-e ../survival-env
+-e ../survival-agent
