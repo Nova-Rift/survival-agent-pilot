@@ -1,4 +1,4 @@
-import checkpoint_io
+from . import checkpoint_io
 """Minimal bounded on-policy actor-critic + one-step latent-model trainer.
 NOT full MuZero: no MCTS targets, replay training, recurrent unroll or encoder tuning.
 The encoder is always frozen, even with the pretrained config. CPU-only entrypoints.
@@ -15,9 +15,9 @@ import time
 import numpy as np
 import torch
 from torch.nn import functional as F
-from simulator import Config,SurvivalWorld,random_policy,greedy_policy
-from integrated import IntegratedController
-from language_backend import LocalLanguageBackend,read_config
+from .simulator import Config,SurvivalWorld,random_policy,greedy_policy
+from .integrated import IntegratedController
+from .language_backend import LocalLanguageBackend,read_config
 
 @dataclass(frozen=True)
 class TrainConfig:

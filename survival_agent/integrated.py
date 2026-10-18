@@ -7,7 +7,7 @@ import json
 import torch
 from torch import nn
 from torch.nn import functional as F
-from language_backend import LanguageController, observed_event, parse_decision
+from .language_backend import LanguageController, observed_event, parse_decision
 
 FEATURE_INSTRUCTION=('Represent only your local experience. Grid: # outside, . empty, '
     'F food, A another agent, @ you. Action 0 wait, 1 north, 2 east, 3 south, 4 west. '
@@ -16,6 +16,7 @@ FEATURE_INSTRUCTION=('Represent only your local experience. Grid: # outside, . e
 class LanguageLatentCore(nn.Module):
     def __init__(self,feature_width,width=32,seed=0):
         super().__init__()
+        if type(feature_width) is not int or not 1<=feature_width<=8192 or type(width) is not int or not 4<=width<=256:raise ValueError('Unsupported bounded feature architecture')
         self.spec={'feature_width':feature_width,'width':width,'seed':seed}
         with torch.random.fork_rng(devices=[]):
             torch.manual_seed(seed)

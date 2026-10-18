@@ -23,6 +23,8 @@ class SurvivalWorld:
     Death is absorbing. Horizon is truncation, not a biological death.
     """
     def __init__(self, seed=0, config=Config()):
+        limits={'size':(2,128),'agents':(1,256),'radius':(0,16),'max_hunger':(1,10000),'initial_food':(0,16384),'food_per_step':(0,16384),'horizon':(1,10000)}
+        if any(type(getattr(config,k)) is not int or not lo<=getattr(config,k)<=hi for k,(lo,hi) in limits.items()):raise ValueError('Unsupported bounded world configuration')
         self.config = config
         if config.size < 2 or not 1 <= config.agents <= config.size**2:
             raise ValueError('Invalid population/grid')

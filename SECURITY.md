@@ -4,8 +4,9 @@ A bounded source review is not a guarantee of zero vulnerabilities. This is loca
 
 ## Publication hardening
 
-- New source-only Git history: no model weights, binary checkpoints, run data, original private documents, credentials or personal machine paths are included.
+- Source-only publication plus a recorded simulation GIF and its provenance. No model weights, checkpoints, raw run datasets, original private documents, credentials or personal machine paths are included.
 - Replaced pickle-based checkpoint loading with bounded ZIP_STORED archives containing safetensors and schema-validated JSON. Legacy archives, arbitrary object types, unknown archive paths, compressed archives, oversized payloads and unsafe array dtypes are rejected. There is no unsafe fallback. Optimizer/RNG/replay resume still has exact-next-update tests.
+- Checkpoint reconstruction bounds model dimensions and world sizes before allocation. Episode replay requires exact shapes and numeric dtypes before boundary arithmetic, bounds transition count/input size, and rejects decoded nonfinite scalar metadata. Frozen encoder resume checks backend compatibility before model construction.
 - Escaped HTML-significant characters in replay JSON so embedded data cannot terminate its script tag. Replay uses no external scripts or network calls.
 - Model loading accepts vetted local directories only, rejects remote/plugin attention config overrides and remote model mappings, uses safetensors, disables remote code and authentication, and never implicitly downloads or calls an inference API.
 - Network behavior is limited to the separately invoked fixed-repository/revision artifact download helper, using normal TLS verification. No network listener, shell execution or model-directed tool execution is present in application code.
@@ -21,6 +22,8 @@ Reviewed primary advisories include:
 - [Transformers malicious attention implementation configuration](https://github.com/advisories/GHSA-29pf-2h5f-8g72), patched 5.3.
 - [Transformers save_pretrained chat-template path traversal](https://github.com/advisories/GHSA-xrqw-3rrv-vx5w), patched 5.10.
 - [Transformers Trainer RNG-state loading](https://github.com/advisories/GHSA-69w3-r845-3855). This project does not use Trainer resume.
+
+A metadata-only check of the five direct minimum versions is not a full resolved/transitive audit. PyTorch 2.10 still has advisories involving PT2 loading and torch.jit.script; this application calls neither API.
 
 These package advisories do not prove every vulnerable path is reachable here. Keep dependencies current and audit the fully resolved environment before real use. pip-audit, Bandit, Gitleaks and TruffleHog were not installed in the inspected environment; no successful scanner run is claimed. Review used source/history checks, regression tests and official advisories. Modern-runtime compatibility, exhaustive transitive dependency scanning, fuzzing, penetration testing and hostile-model resource isolation remain unverified.
 

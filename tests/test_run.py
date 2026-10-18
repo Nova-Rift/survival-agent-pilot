@@ -9,7 +9,7 @@ class RunnerTests(unittest.TestCase):
     def test_bounded_run_writes_trace_and_refuses_overwrite(self):
         with tempfile.TemporaryDirectory() as d:
             out=Path(d)/'episode'
-            command=[sys.executable,'-B','run.py','--seed','1','--steps','8','--output',str(out)]
+            command=[sys.executable,'-B','-m','survival_agent.run','--seed','1','--steps','8','--output',str(out)]
             result=subprocess.run(command,capture_output=True,text=True,timeout=10)
             self.assertEqual(result.returncode,0,result.stderr)
             summary=json.loads((out/'summary.json').read_text())
@@ -21,7 +21,7 @@ class RunnerTests(unittest.TestCase):
 
     def test_rejects_unbounded_local_run(self):
         with tempfile.TemporaryDirectory() as d:
-            result=subprocess.run([sys.executable,'-B','run.py','--steps','1000000','--output',str(Path(d)/'bad')],capture_output=True,text=True,timeout=10)
+            result=subprocess.run([sys.executable,'-B','-m','survival_agent.run','--steps','1000000','--output',str(Path(d)/'bad')],capture_output=True,text=True,timeout=10)
             self.assertNotEqual(result.returncode,0);self.assertFalse((Path(d)/'bad').exists())
 
 if __name__=='__main__':unittest.main()

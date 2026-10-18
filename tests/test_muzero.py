@@ -1,4 +1,4 @@
-import checkpoint_io
+from survival_agent import checkpoint_io
 """Search math, replay boundaries and real tiny encoder/unroll/resume tests."""
 from copy import deepcopy
 import tempfile
@@ -7,8 +7,8 @@ import unittest
 from unittest.mock import patch
 import numpy as np
 import torch
-from muzero import MuZeroModel,MuZeroLearner,Episode,EpisodeReplay,mcts,value_target,collect_episode
-from test_integrated import synthetic_saved_fixture
+from survival_agent.muzero import MuZeroModel,MuZeroLearner,Episode,EpisodeReplay,mcts,value_target,collect_episode
+from tests.test_integrated import synthetic_saved_fixture
 
 torch.set_num_threads(1)
 

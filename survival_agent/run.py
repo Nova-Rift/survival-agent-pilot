@@ -5,8 +5,8 @@ import json
 from pathlib import Path
 import time
 import numpy as np
-from simulator import Config, SurvivalWorld, random_policy, greedy_policy
-from replay import write_replay
+from .simulator import Config, SurvivalWorld, random_policy, greedy_policy
+from .replay import write_replay
 
 def run(seed, policy_name, steps):
     world=SurvivalWorld(seed,replace(Config(),horizon=steps))

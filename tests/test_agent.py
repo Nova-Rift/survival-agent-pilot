@@ -3,8 +3,8 @@ import unittest
 from pathlib import Path
 import numpy as np
 import torch
-from simulator import SurvivalWorld, random_policy, greedy_policy
-from agent import HistoryAgent, history_start, history_append, smoke_update, save_checkpoint, load_checkpoint, make_agent_population
+from survival_agent.simulator import SurvivalWorld, random_policy, greedy_policy
+from survival_agent.agent import HistoryAgent, history_start, history_append, smoke_update, save_checkpoint, load_checkpoint, make_agent_population
 
 torch.set_num_threads(1)
 

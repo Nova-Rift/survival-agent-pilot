@@ -10,7 +10,7 @@ import urllib.request
 
 REPO='Qwen/Qwen2.5-0.5B-Instruct'
 REVISION='7ae557604adf67be50417f59c2c2f167def9a775'
-DEST=Path(__file__).parent/'models'/'qwen2.5-0.5b-instruct'
+DEST=Path(__file__).parent.parent/'models'/'qwen2.5-0.5b-instruct'
 ALLOWED={'config.json','generation_config.json','tokenizer.json','tokenizer_config.json',
          'vocab.json','merges.txt','special_tokens_map.json','LICENSE','model.safetensors'}
 
@@ -45,7 +45,7 @@ def main():
                                   'repository_lfs_sha256_verified':bool(expected)})
     (DEST/'model-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     # Copy only small provenance information into Git; weights remain ignored.
-    provenance_dir=Path(__file__).parent/'artifacts';provenance_dir.mkdir(exist_ok=True)
+    provenance_dir=Path(__file__).parent.parent/'artifacts';provenance_dir.mkdir(exist_ok=True)
     (provenance_dir/'qwen-model-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     print('Pinned model files saved with SHA256 manifest',flush=True)
 

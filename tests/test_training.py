@@ -1,4 +1,4 @@
-import checkpoint_io
+from survival_agent import checkpoint_io
 """Trainer correctness, not a scientific training experiment."""
 from copy import deepcopy
 from dataclasses import replace
@@ -7,9 +7,9 @@ import tempfile
 import time
 import unittest
 import torch
-from language_backend import LocalLanguageBackend,BackendConfig
-from test_integrated import FeatureMockBackend
-from training import Trainer,TrainConfig,survival_targets,evaluate
+from survival_agent.language_backend import LocalLanguageBackend,BackendConfig
+from tests.test_integrated import FeatureMockBackend
+from survival_agent.training import Trainer,TrainConfig,survival_targets,evaluate
 
 torch.set_num_threads(1)
 

@@ -14,9 +14,9 @@ from transformers import GPT2Config, GPT2LMHeadModel, PreTrainedTokenizerFast
 from tokenizers import Tokenizer
 from tokenizers.models import WordLevel
 from tokenizers.pre_tokenizers import Whitespace
-from communication import Message
-from simulator import SurvivalWorld
-from language_backend import BackendConfig, LocalLanguageBackend, LanguageController, ByteVocabulary, parse_decision, read_config
+from survival_agent.communication import Message
+from survival_agent.simulator import SurvivalWorld
+from survival_agent.language_backend import BackendConfig, LocalLanguageBackend, LanguageController, ByteVocabulary, parse_decision, read_config
 
 torch.set_num_threads(1)
 
@@ -92,7 +92,7 @@ class RealModelFixtureTests(unittest.TestCase):
             with self.assertRaises(RuntimeError):LocalLanguageBackend(BackendConfig(model_name_or_path=d))
         with self.assertRaises(ValueError):LocalLanguageBackend(BackendConfig(model_name_or_path='https://example.invalid/model'))
         self.assertEqual(BackendConfig().mode,'pretrained')
-        self.assertEqual(read_config('configs/pretrained.json').mode,'pretrained')
-        self.assertEqual(read_config('configs/from-scratch.json').mode,'from_scratch')
+        self.assertEqual(read_config('survival_agent/configs/pretrained.json').mode,'pretrained')
+        self.assertEqual(read_config('survival_agent/configs/from-scratch.json').mode,'from_scratch')
 
 if __name__=='__main__':unittest.main()

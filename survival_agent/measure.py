@@ -8,9 +8,9 @@ import resource
 import time
 import numpy as np
 import torch
-from simulator import Config, SurvivalWorld, random_policy, greedy_policy
-from agent import HistoryAgent, history_start, history_append, smoke_update, save_checkpoint, load_checkpoint
-from replay import write_replay
+from .simulator import Config, SurvivalWorld, random_policy, greedy_policy
+from .agent import HistoryAgent, history_start, history_append, smoke_update, save_checkpoint, load_checkpoint
+from .replay import write_replay
 
 def timed(fn, repeats):
     samples=[]

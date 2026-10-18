@@ -7,9 +7,9 @@ import json
 from pathlib import Path
 import time
 import torch
-from simulator import SurvivalWorld, Config
-from communication import LocalCommunication
-from language_backend import LocalLanguageBackend, LanguageController, read_config
+from .simulator import SurvivalWorld, Config
+from .communication import LocalCommunication
+from .language_backend import LocalLanguageBackend, LanguageController, read_config
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)

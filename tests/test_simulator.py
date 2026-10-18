@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from simulator import Config, SurvivalWorld, greedy_policy, random_policy
+from survival_agent.simulator import Config, SurvivalWorld, greedy_policy, random_policy
 
 class WorldTests(unittest.TestCase):
     def world(self, **kw):

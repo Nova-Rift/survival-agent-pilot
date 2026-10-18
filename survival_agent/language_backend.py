@@ -22,7 +22,7 @@ INSTRUCTION=('Act using only your local observations and received messages. '
 @dataclass(frozen=True)
 class BackendConfig:
     mode: str = 'pretrained'
-    model_name_or_path: str = str(Path(__file__).parent/'models'/'qwen2.5-0.5b-instruct')
+    model_name_or_path: str = str(Path(__file__).parent.parent/'models'/'qwen2.5-0.5b-instruct')
     revision: str = '7ae557604adf67be50417f59c2c2f167def9a775'
     seed: int = 0
     max_new_tokens: int = 32
@@ -221,5 +221,5 @@ class LanguageController:
 def read_config(path):
     data=json.loads(Path(path).read_text())
     if str(data.get('model_name_or_path','')).startswith('./'):
-        data['model_name_or_path']=str(Path(__file__).parent/data['model_name_or_path'])
+        data['model_name_or_path']=str(Path(__file__).parent.parent/data['model_name_or_path'])
     return BackendConfig(**data)

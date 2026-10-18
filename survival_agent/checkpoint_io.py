@@ -34,7 +34,7 @@ def save(value,path):
         if isinstance(v,dict):return {'type':'dict','items':[[encode(k,depth+1),encode(x,depth+1)] for k,x in v.items()]}
         if isinstance(v,(list,tuple)):return {'type':'tuple' if isinstance(v,tuple) else 'list','items':[encode(x,depth+1) for x in v]}
         # This is the ONLY permitted structured domain object.
-        from muzero import Episode
+        from .muzero import Episode
         if isinstance(v,Episode):return {'type':'episode','fields':encode(vars(v),depth+1)}
         raise TypeError('Unsupported checkpoint value')
     metadata=json.dumps({'format':'survival-safe-checkpoint','version':1,'value':encode(value)},allow_nan=False,separators=(',',':')).encode()
@@ -69,6 +69,7 @@ def load(path,*,map_location='cpu',weights_only=True):
         nonlocal nodes
         nodes+=1
         if nodes>500000 or depth>64:raise ValueError('Checkpoint complexity limit')
+        if type(v) is float and not math.isfinite(v):raise ValueError('Non-finite metadata')
         if v is None or type(v) in [str,bool,int,float]:return v
         if not isinstance(v,dict) or 'type' not in v:raise ValueError('Invalid structured node')
         kind=v['type']
@@ -95,7 +96,7 @@ def load(path,*,map_location='cpu',weights_only=True):
             result=[decode(x,depth+1) for x in v['items']]
             return tuple(result) if kind=='tuple' else result
         if kind=='episode' and set(v)=={'type','fields'}:
-            from muzero import Episode
+            from .muzero import Episode
             episode=Episode(**decode(v['fields'],depth+1));episode.validate();return episode
         raise ValueError('Unsupported structured type; no dynamic loading')
     value=decode(root['value'])

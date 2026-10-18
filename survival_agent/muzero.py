@@ -12,15 +12,17 @@ import numpy as np
 import torch
 from torch import nn
 from torch.nn import functional as F
-from agent import HistoryAgent,history_start,history_append
-from integrated import LanguageLatentCore
-from integrated import FEATURE_INSTRUCTION
-from language_backend import observed_event
-from simulator import Config,SurvivalWorld
+from .agent import HistoryAgent,history_start,history_append
+from .integrated import LanguageLatentCore
+from .integrated import FEATURE_INSTRUCTION
+from .language_backend import observed_event
+from .simulator import Config,SurvivalWorld
 
 class MuZeroModel(nn.Module):
     def __init__(self,encoder_mode='scratch_history',feature_width=32,seed=0,encoder_provenance=None,language_encoder_training='frozen'):
         super().__init__()
+        if type(feature_width) is not int or not 1<=feature_width<=8192:raise ValueError('Unsupported bounded feature width')
+        if type(seed) is not int or not 0<=seed<2**32:raise ValueError('Invalid seed')
         if language_encoder_training!='frozen':raise NotImplementedError('Pretrained language fine-tuning is not implemented; never silently frozen')
         if encoder_mode not in ['scratch_history','frozen_language_features']:raise ValueError('Unknown encoder mode')
         if encoder_mode=='frozen_language_features' and not encoder_provenance:raise ValueError('Explicit frozen encoder provenance required')
@@ -107,7 +109,16 @@ class Episode:
     truncated: np.ndarray
 
     def validate(self):
+        arrays=[self.inputs,self.actions,self.rewards,self.policies,self.root_values,self.terminated,self.truncated]
+        if any(not isinstance(x,np.ndarray) for x in arrays):raise ValueError('Episode arrays required')
+        if self.actions.ndim!=1 or not 1<=self.actions.size<=4096:raise ValueError('Bounded one-dimensional actions required')
         n=len(self.actions)
+        if self.actions.dtype.kind not in 'iu' or self.terminated.dtype!=np.bool_ or self.truncated.dtype!=np.bool_:raise ValueError('Invalid episode dtype')
+        if any(x.shape!=(n,) for x in [self.rewards,self.terminated,self.truncated]) or self.root_values.shape!=(n+1,):raise ValueError('Exact transition shapes required')
+        if self.inputs.ndim not in (2,5) or self.inputs.shape[0]!=n+1 or self.inputs.nbytes>16*1024*1024:raise ValueError('Invalid bounded encoder inputs')
+        if self.inputs.ndim==2 and not 1<=self.inputs.shape[1]<=8192:raise ValueError('Invalid feature shape')
+        if self.inputs.ndim==5 and self.inputs.shape[1:]!=(4,5,5,5):raise ValueError('Invalid history shape')
+        if any(x.dtype not in (np.dtype('float32'),np.dtype('float64')) for x in [self.inputs,self.rewards,self.policies,self.root_values]):raise ValueError('Floating episode arrays required')
         if n<1 or len(self.inputs)!=n+1 or self.policies.shape!=(n,5) or len(self.root_values)!=n+1:raise ValueError('Episode length mismatch')
         if any(len(x)!=n for x in [self.rewards,self.terminated,self.truncated]):raise ValueError('Transition length mismatch')
         if (self.terminated&self.truncated).any() or (self.terminated[:-1]|self.truncated[:-1]).any() or not (self.terminated[-1] or self.truncated[-1]):raise ValueError('One episode boundary at end required')

@@ -1,4 +1,4 @@
-import checkpoint_io
+from . import checkpoint_io
 """Bounded, untrained integrated controller rollout. Default is local pretrained.
 Use tiny scratch mode for cheap engineering checks; no training/downloads occur.
 """
@@ -8,10 +8,10 @@ import json
 from pathlib import Path
 import time
 import torch
-from simulator import SurvivalWorld,Config
-from communication import LocalCommunication
-from integrated import IntegratedController
-from language_backend import LocalLanguageBackend,read_config
+from .simulator import SurvivalWorld,Config
+from .communication import LocalCommunication
+from .integrated import IntegratedController
+from .language_backend import LocalLanguageBackend,read_config
 
 def episode(backend,steps=1,planning=True,speech=False,seed=0):
     if not 1<=steps<=8:raise ValueError('Bounded local milestone: 1..8 joint steps')

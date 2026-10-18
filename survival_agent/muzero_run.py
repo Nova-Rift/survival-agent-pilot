@@ -1,4 +1,4 @@
-import checkpoint_io
+from . import checkpoint_io
 """A bounded local MuZero-style episode-replay/unroll smoke command, not a study."""
 import argparse
 import json
@@ -6,8 +6,20 @@ import os
 from pathlib import Path
 import time
 import torch
-from muzero import MuZeroModel,MuZeroLearner,collect_episode
-from language_backend import LocalLanguageBackend,read_config
+from .muzero import MuZeroModel,MuZeroLearner,collect_episode
+from .language_backend import LocalLanguageBackend,read_config
+
+def model_from_checkpoint_spec(spec,backend):
+    """Check bounds and backend compatibility before allocating a model."""
+    keys={'encoder_mode','feature_width','seed','encoder_provenance','language_encoder_training'}
+    if not isinstance(spec,dict) or set(spec)!=keys:raise ValueError('Invalid checkpoint model spec')
+    width=spec['feature_width']
+    if type(width) is not int or not 1<=width<=8192:raise ValueError('Unsupported bounded feature width')
+    if spec['encoder_mode']=='frozen_language_features':
+        if backend is None or backend.provenance!=spec['encoder_provenance'] or backend.feature_width!=width:raise ValueError('Resume requires matching explicit frozen local backend')
+    elif spec['encoder_mode']!='scratch_history' or backend is not None:
+        raise ValueError('Checkpoint/backend encoder mismatch')
+    return MuZeroModel(**spec)
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
@@ -27,8 +39,8 @@ def main():
     if args.backend_config:backend=LocalLanguageBackend(read_config(args.backend_config))
     saved=checkpoint_io.load(args.resume,map_location='cpu',weights_only=True) if args.resume else None
     if saved:
-        model=MuZeroModel(**saved['spec'])
-        if model.spec['encoder_mode']=='frozen_language_features' and (backend is None or backend.provenance!=model.spec['encoder_provenance']):parser.error('Resume requires the matching explicit frozen local backend')
+        try:model=model_from_checkpoint_spec(saved['spec'],backend)
+        except ValueError as exc:parser.error(str(exc))
     elif backend:
         model=MuZeroModel('frozen_language_features',backend.feature_width,args.seed,backend.provenance)
     else:model=MuZeroModel(seed=args.seed)

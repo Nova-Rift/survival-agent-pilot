@@ -1,0 +1,15 @@
+{
+  "source": "Actual locally recorded simulation already shown on clarkwhitehead.com",
+  "policy": "Scripted observation-limited greedy baseline; not a trained model",
+  "seed": 0,
+  "source_frames": 129,
+  "source_sha256": "7172a446afe8f2dd3e45baf80fb1efff57fa0f0f8f9b1f96c8ed4d45fca89303",
+  "dimensions": [
+    400,
+    402
+  ],
+  "frame_duration_ms": 140,
+  "asset_bytes": 1032942,
+  "model_inference": false,
+  "screenshot": false
+}

@@ -1,4 +1,4 @@
-import checkpoint_io
+from . import checkpoint_io
 """Tiny shared transformer representation and MuZero-style latent lookahead.
 
 Not full MuZero: exhaustive root actions plus top-2 prior expansion at depth two,
@@ -16,6 +16,7 @@ from torch.nn import functional as F
 class HistoryAgent(nn.Module):
     def __init__(self, obs_width=5, history=4, width=32):
         super().__init__()
+        if any(type(v) is not int for v in (obs_width,history,width)) or not (1<=obs_width<=33 and 1<=history<=32 and 4<=width<=256 and width%4==0):raise ValueError('Unsupported bounded history architecture')
         self.spec = {'obs_width':obs_width, 'history':history, 'width':width}
         self.embed = nn.Linear(5*obs_width*obs_width, width)
         self.positions = nn.Parameter(torch.zeros(1, history, width))
@@ -104,13 +105,18 @@ def save_checkpoint(path, model, optimizer, world, rng, history, updates):
     os.replace(temporary,path)
 
 def load_checkpoint(path):
-    from simulator import Config, SurvivalWorld
-    # Only load locally generated trusted checkpoints; torch.load uses pickle.
+    from .simulator import Config, SurvivalWorld
+    # Structured parsing and bounded reconstruction; no pickle fallback.
     state=checkpoint_io.load(path,map_location='cpu',weights_only=True)
     if state['format']!=1:raise ValueError('Unsupported checkpoint')
+    config=Config(**state['world_config'])
+    if state['spec']['obs_width']!=2*config.radius+1:raise ValueError('Checkpoint observation/world mismatch')
+    world=SurvivalWorld(0,config)
+    expected=(config.agents,state['spec']['history'],5,state['spec']['obs_width'],state['spec']['obs_width'])
+    if not isinstance(state['history'],np.ndarray) or state['history'].shape!=expected or state['history'].dtype!=np.float32:raise ValueError('Invalid checkpoint history')
     model=HistoryAgent(**state['spec']);model.load_state_dict(state['model'])
     optimizer=torch.optim.Adam(model.parameters(),lr=1e-3);optimizer.load_state_dict(state['optimizer'])
-    world=SurvivalWorld(0,Config(**state['world_config']));world.load_state(state['world'])
+    world.load_state(state['world'])
     rng=np.random.default_rng();rng.bit_generator.state=state['rng']
     torch.set_rng_state(state['torch_rng'])
     return model,optimizer,world,rng,state['history'],state['updates']

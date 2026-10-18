@@ -14,11 +14,11 @@ from transformers import GPT2Config,GPT2LMHeadModel,Qwen2Config,Qwen2ForCausalLM
 from tokenizers import Tokenizer
 from tokenizers.models import WordLevel
 from tokenizers.pre_tokenizers import Whitespace
-from simulator import SurvivalWorld
-from communication import Message
-from integrated import IntegratedController
-from integrated_run import episode
-from language_backend import BackendConfig,LocalLanguageBackend
+from survival_agent.simulator import SurvivalWorld
+from survival_agent.communication import Message
+from survival_agent.integrated import IntegratedController
+from survival_agent.integrated_run import episode
+from survival_agent.language_backend import BackendConfig,LocalLanguageBackend
 
 torch.set_num_threads(1)
 

@@ -1,8 +1,8 @@
 from dataclasses import asdict
 import unittest
 import numpy as np
-from simulator import Config, SurvivalWorld
-from communication import LocalCommunication
+from survival_agent.simulator import Config, SurvivalWorld
+from survival_agent.communication import LocalCommunication
 
 class CommunicationTests(unittest.TestCase):
     def setup_channel(self):
