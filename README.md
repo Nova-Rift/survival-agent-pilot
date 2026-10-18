@@ -14,6 +14,7 @@ Start reading:
 - [Language-feature-to-latent controller](survival_agent/integrated.py)
 - [Actor-critic baseline trainer/evaluator](survival_agent/training.py)
 - [Simulator and observation-limited baselines](survival_agent/simulator.py)
+- [Developer guide: quickstart, interfaces and extension examples](docs/developers.md)
 - [Security scope and limitations](SECURITY.md)
 
 ## Layout
@@ -39,6 +40,8 @@ Scratch MuZero training updates its small observation transformer, dynamics and 
 Pretrained language defaults to Qwen/Qwen2.5-0.5B-Instruct at revision `7ae557604adf67be50417f59c2c2f167def9a775`. Weights are not included. Loading is local-directory-only, safetensors-only and `trust_remote_code=False`. The optional `scripts/fetch_qwen.py` helper downloads only that pinned official artifact when explicitly invoked. The model's license is Apache-2.0; no project license has been selected.
 
 ## Local setup
+
+Clean installation with the recommended versions is not yet verified. See the [developer setup and test status](docs/developers.md). The commands below are setup instructions, not a claim that a fresh environment was tested.
 
 Use a fresh virtual environment with Python 3.10+ and the security-oriented dependency minimums in `requirements-language.txt`. Do not reuse an unpatched ML environment for untrusted files. See SECURITY.md for advisory review and compatibility limits.
 
