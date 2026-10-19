@@ -1,0 +1,225 @@
+{
+  "protocol": {
+    "version": 1,
+    "training_seed_base": 30000,
+    "training_episodes": 384,
+    "development_seed_base": 40000,
+    "development_episodes": 64,
+    "final_seed_base": 50000,
+    "final_episodes": 128,
+    "historical_training_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "small_diverse_training_episodes": 16,
+    "configurations": [
+      {
+        "size": 8,
+        "agents": 1,
+        "radius": 1,
+        "max_hunger": 8,
+        "initial_food": 2,
+        "food_per_step": 0,
+        "horizon": 24
+      },
+      {
+        "size": 8,
+        "agents": 1,
+        "radius": 1,
+        "max_hunger": 12,
+        "initial_food": 10,
+        "food_per_step": 1,
+        "horizon": 24
+      },
+      {
+        "size": 6,
+        "agents": 1,
+        "radius": 1,
+        "max_hunger": 12,
+        "initial_food": 12,
+        "food_per_step": 2,
+        "horizon": 24
+      },
+      {
+        "size": 10,
+        "agents": 1,
+        "radius": 1,
+        "max_hunger": 16,
+        "initial_food": 12,
+        "food_per_step": 1,
+        "horizon": 32
+      }
+    ],
+    "policies": [
+      "random",
+      "greedy",
+      "wait",
+      "epsilon_greedy"
+    ],
+    "configuration_policy_sampling": "Independent uniform pre-outcome draws, no outcome filtering/resampling",
+    "model_seeds": [
+      0,
+      1,
+      2
+    ],
+    "conditions": [
+      "historical_249",
+      "diverse_small",
+      "diverse_full"
+    ],
+    "updates_per_condition": 300,
+    "batch_size": 4,
+    "unroll": 4,
+    "supervised_transitions_per_condition": 4800,
+    "maximum_optimizer_updates": 2700,
+    "burn_in": "Exact actual episode prefix, length varies; gradients stopped before last four transitions",
+    "window_sampling": "Episode-count-weighted length group; 50% endpoint, 50% uniform shared end index",
+    "learning_rate": 0.001,
+    "gradient_clip": 10.0,
+    "model": {
+      "deter": 32,
+      "hidden": 32,
+      "stoch": 4,
+      "classes": 4,
+      "unimix": 0.01,
+      "free_nats": 1.0,
+      "dynamics_scale": 1.0,
+      "representation_scale": 0.1
+    },
+    "diagnostic_context": 1,
+    "diagnostic_latent": "Categorical mode; not outcome averaging",
+    "selection": "No architecture/objective/hyperparameter selection; all predeclared conditions retained",
+    "final_rule": "Freeze hashes after development evaluation; collect final episodes only afterward; no final-set tuning",
+    "comparability": "Same optimizer steps and loss-target count, variable burn-in CPU cost; varied-small is a size control with only 16 episodes, not identical coverage"
+  },
+  "datasets": {
+    "historical_249": {
+      "episodes": 32,
+      "real_transitions": 249,
+      "deaths": 6,
+      "exclusive_truncations": 26,
+      "both": 2,
+      "continuing_transitions": 243,
+      "replay_sha256": "b5fd969b1d1d9c99a1b78e789a60cde4ff766e0bad541fe3ddde25a17d5c85b1",
+      "training_mean_baseline": [
+        0.9759036302566528,
+        0.9759036144578314
+      ]
+    },
+    "diverse_small": {
+      "episodes": 16,
+      "real_transitions": 338,
+      "deaths": 7,
+      "exclusive_truncations": 9,
+      "both": 0,
+      "continuing_transitions": 331,
+      "replay_sha256": "147401ab28811ce93c6f2c014e969db59da69aac5b4d511ce4b94f1418206b42",
+      "training_mean_baseline": [
+        0.9792899489402771,
+        0.9792899408284024
+      ]
+    },
+    "diverse_full": {
+      "episodes": 384,
+      "real_transitions": 7378,
+      "deaths": 189,
+      "exclusive_truncations": 195,
+      "both": 0,
+      "continuing_transitions": 7189,
+      "replay_sha256": "7d26b0635824116851b475a9060bc8d3faf99764f89e056cd91a56e31e78bfbc",
+      "training_mean_baseline": [
+        0.9743832945823669,
+        0.9743833017077799
+      ]
+    }
+  },
+  "model_versions": [
+    {
+      "model_seed": 0,
+      "condition": "historical_249",
+      "initial_model_sha256": "09c307b7ce02e73e2377dea9ce19f4a7ed37d2850237d5f5af80fb91eee9354f",
+      "trained_model_sha256": "9505f8e15fad64b303581af8e9359bae1f5ac66e4bfb58b73223f1c52fba6e03"
+    },
+    {
+      "model_seed": 0,
+      "condition": "diverse_small",
+      "initial_model_sha256": "09c307b7ce02e73e2377dea9ce19f4a7ed37d2850237d5f5af80fb91eee9354f",
+      "trained_model_sha256": "4a4fb5a4cc5b752b494b36a39b51d6a2d0fb1fa18750fd0ff0e40388c7d4f671"
+    },
+    {
+      "model_seed": 0,
+      "condition": "diverse_full",
+      "initial_model_sha256": "09c307b7ce02e73e2377dea9ce19f4a7ed37d2850237d5f5af80fb91eee9354f",
+      "trained_model_sha256": "aa2cb25d671fac87d141e6241b807f8b224a501a9065658bca6d7b44c0a5218b"
+    },
+    {
+      "model_seed": 1,
+      "condition": "historical_249",
+      "initial_model_sha256": "487cfb8915cafe1ec8b928680c58db07db0c763b583347a8bd7897b772ecaaa8",
+      "trained_model_sha256": "e437dde9b78ee2fb435304e0d51fd16eab674fba800fa999ec5b156b3d5b4cc4"
+    },
+    {
+      "model_seed": 1,
+      "condition": "diverse_small",
+      "initial_model_sha256": "487cfb8915cafe1ec8b928680c58db07db0c763b583347a8bd7897b772ecaaa8",
+      "trained_model_sha256": "5c1c69e2d536011a3af1f8a498eff4ce9d15e8f56a6856012a0245f78d2e2616"
+    },
+    {
+      "model_seed": 1,
+      "condition": "diverse_full",
+      "initial_model_sha256": "487cfb8915cafe1ec8b928680c58db07db0c763b583347a8bd7897b772ecaaa8",
+      "trained_model_sha256": "6c925ab5272b9c8e055b9265c6058e2d475dc4a0b03e314e0103b1fa147aa439"
+    },
+    {
+      "model_seed": 2,
+      "condition": "historical_249",
+      "initial_model_sha256": "0a05a08764c48bbf970bf22766b8cf435edfbdac33442b877fd8b79b8d9a9de2",
+      "trained_model_sha256": "b05fcc9b9e7886b892e8ecd2fb0fd99233d2a9db0d5d811037af72529aed44e0"
+    },
+    {
+      "model_seed": 2,
+      "condition": "diverse_small",
+      "initial_model_sha256": "0a05a08764c48bbf970bf22766b8cf435edfbdac33442b877fd8b79b8d9a9de2",
+      "trained_model_sha256": "092bad9189f69ceaf46fe6bd5e96313a70d105b22e05316433318de4be7ca310"
+    },
+    {
+      "model_seed": 2,
+      "condition": "diverse_full",
+      "initial_model_sha256": "0a05a08764c48bbf970bf22766b8cf435edfbdac33442b877fd8b79b8d9a9de2",
+      "trained_model_sha256": "794332bd486afa4461c553325c2f3efaf4471db9637f4953a3d7f04d91a33099"
+    }
+  ],
+  "selected_changes": [],
+  "selection_note": "All planned conditions retained. No model/objective/hyperparameter tuning after development.",
+  "final_data_collected": false
+}

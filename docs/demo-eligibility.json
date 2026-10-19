@@ -1,0 +1,19 @@
+{
+  "format": 1,
+  "status": "blocked_no_evaluated_trained_policy",
+  "current_demo": "scripted_greedy_legacy_recording",
+  "current_demo_seed": 0,
+  "world_model_only_is_policy": false,
+  "featured_policy_checkpoint_sha256": null,
+  "featured_model_source_commit": null,
+  "featured_environment_version": null,
+  "validation_policy_survival_scores": null,
+  "validation_seed_count": 0,
+  "scripted_baseline_comparison": null,
+  "selection_metric": "actual_policy_survival_on_fixed_validation_suite",
+  "final_test_role": "report_only_after_checkpoint_and_protocol_freeze",
+  "representative_recording_seed": 70000,
+  "representative_seed_selected_before_episode": true,
+  "synthetic_v2_wear": "planned_not_implemented",
+  "eligible_to_replace_live_demo": false
+}

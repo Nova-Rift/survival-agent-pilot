@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "training_seed_base": 30000,
+  "training_episodes": 384,
+  "development_seed_base": 40000,
+  "development_episodes": 64,
+  "final_seed_base": 50000,
+  "final_episodes": 128,
+  "historical_training_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ],
+  "small_diverse_training_episodes": 16,
+  "configurations": [
+    {
+      "size": 8,
+      "agents": 1,
+      "radius": 1,
+      "max_hunger": 8,
+      "initial_food": 2,
+      "food_per_step": 0,
+      "horizon": 24
+    },
+    {
+      "size": 8,
+      "agents": 1,
+      "radius": 1,
+      "max_hunger": 12,
+      "initial_food": 10,
+      "food_per_step": 1,
+      "horizon": 24
+    },
+    {
+      "size": 6,
+      "agents": 1,
+      "radius": 1,
+      "max_hunger": 12,
+      "initial_food": 12,
+      "food_per_step": 2,
+      "horizon": 24
+    },
+    {
+      "size": 10,
+      "agents": 1,
+      "radius": 1,
+      "max_hunger": 16,
+      "initial_food": 12,
+      "food_per_step": 1,
+      "horizon": 32
+    }
+  ],
+  "policies": [
+    "random",
+    "greedy",
+    "wait",
+    "epsilon_greedy"
+  ],
+  "configuration_policy_sampling": "Independent uniform pre-outcome draws, no outcome filtering/resampling",
+  "model_seeds": [
+    0,
+    1,
+    2
+  ],
+  "conditions": [
+    "historical_249",
+    "diverse_small",
+    "diverse_full"
+  ],
+  "updates_per_condition": 300,
+  "batch_size": 4,
+  "unroll": 4,
+  "supervised_transitions_per_condition": 4800,
+  "maximum_optimizer_updates": 2700,
+  "burn_in": "Exact actual episode prefix, length varies; gradients stopped before last four transitions",
+  "window_sampling": "Episode-count-weighted length group; 50% endpoint, 50% uniform shared end index",
+  "learning_rate": 0.001,
+  "gradient_clip": 10.0,
+  "model": {
+    "deter": 32,
+    "hidden": 32,
+    "stoch": 4,
+    "classes": 4,
+    "unimix": 0.01,
+    "free_nats": 1.0,
+    "dynamics_scale": 1.0,
+    "representation_scale": 0.1
+  },
+  "diagnostic_context": 1,
+  "diagnostic_latent": "Categorical mode; not outcome averaging",
+  "selection": "No architecture/objective/hyperparameter selection; all predeclared conditions retained",
+  "final_rule": "Freeze hashes after development evaluation; collect final episodes only afterward; no final-set tuning",
+  "comparability": "Same optimizer steps and loss-target count, variable burn-in CPU cost; varied-small is a size control with only 16 episodes, not identical coverage"
+}

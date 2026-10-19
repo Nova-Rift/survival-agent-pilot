@@ -10,6 +10,9 @@ Start reading:
 
 - [Stage-B recurrent world-model survival smoke and measured limitations](docs/hybrid-stage-b.md)
 - [Open-loop diagnostic: held-out seeds, target coverage and trivial baselines](docs/hybrid-stage-b-diagnostic.md)
+- [Larger matched-budget data-coverage diagnostic](docs/coverage-diagnostic.md)
+- [Evaluated-policy recording publication plan](docs/demo-publication-plan.md) and [current eligibility](docs/demo-eligibility.json)
+- [Synthetic survival v2 design, including irreversible simulation-time wear](docs/synthetic-survival-v2.md) — planned, not implemented
 - [MuZero-style model, PUCT MCTS, replay and recurrent losses](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/muzero.py)
 - [Small transformer-history agent](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/agent.py)
 - [Local pretrained/scratch language backend](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/language_backend.py)
