@@ -2,6 +2,21 @@
 
 [Developer index](developers.md)
 
+## Current transformer source workflow — October 19, 2026
+
+The current model dependency is `survival-agent` commit
+`4eda7827ff48bb18648dbd86452fd174e3e7dd58` on `hybrid-stage-b`.
+The tested environment rules are commit `e4d3f66a3f870fefe7340e35f206b587eb0c69e4`
+on `browser-environment`. `pyproject.toml` pins those versions. Use this integration
+branch `hybrid-stage-b-survival`; the [transformer guide](transformer-agent.md)
+provides the current command. Installed dependencies and sibling source checkouts
+were tested; a new installation/wheel build remains unverified.
+
+The extraction pins and setup narrative below are historical. They do not contain
+the current transformer implementation; do not switch to them for the new command.
+
+## Historical extraction record
+
 | Source | Canonical repository and pinned extraction |
 |---|---|
 | Environment | [Nova-Rift/survival-env](https://github.com/Nova-Rift/survival-env), `3915226ceabc42e4548fc3b4b45bf146c408755b` |

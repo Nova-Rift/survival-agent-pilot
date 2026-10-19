@@ -1,5 +1,23 @@
 # Survival Agent Pilot
 
+## Current agent: start here
+
+The current development path uses a **small causal transformer** to remember
+numeric observation/action history. It combines that memory with the current local
+view, then an actor chooses a movement action and a critic estimates future reward.
+All eight agents use the same weights and separate histories.
+
+- [One-file model and action selection](https://github.com/Nova-Rift/survival-agent/blob/hybrid-stage-b/survival_agent/hybrid/transformer_agent.py)
+- [Plain-language walkthrough and component map](https://github.com/Nova-Rift/survival-agent/blob/hybrid-stage-b/README.md) — transformer, world model, RL, text, continual learning and forgetting protection, with implemented/proposed status.
+- [How to run the transformer training check](docs/transformer-agent.md)
+
+The transformer path has an engineering training/reload check, **not a held-out
+survival improvement result**. Text input, continual learning, forgetting protection
+and learned planning are not active components. Earlier measured results used the
+preserved GRU model. The website remains scripted.
+
+## Existing environment and earlier prototypes
+
 [![Actual recorded survival simulation: scripted greedy baseline, seed 0; not trained AI](assets/survival-preview.gif)](https://clarkwhitehead.com/)
 
 **Actual recorded run · scripted greedy baseline · no trained result.** Click the preview for the replay controls on the website.

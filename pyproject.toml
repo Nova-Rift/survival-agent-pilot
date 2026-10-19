@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Bounded multiagent survival research scaffold"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["survival-env @ git+https://github.com/Nova-Rift/survival-env.git@3915226ceabc42e4548fc3b4b45bf146c408755b", "survival-agent @ git+https://github.com/Nova-Rift/survival-agent.git@e3007112887c25b2d17a7a7c3576d53322ceccd2"]
+dependencies = ["survival-env @ git+https://github.com/Nova-Rift/survival-env.git@e4d3f66a3f870fefe7340e35f206b587eb0c69e4", "survival-agent @ git+https://github.com/Nova-Rift/survival-agent.git@4eda7827ff48bb18648dbd86452fd174e3e7dd58"]
 
 [project.optional-dependencies]
 agent = ["torch>=2.10.0,<3", "safetensors>=0.7.0,<1"]
