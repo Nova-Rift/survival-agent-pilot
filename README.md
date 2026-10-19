@@ -87,3 +87,10 @@ Checkpoint/resume uses schema-validated JSON and safetensors in a bounded archiv
 No useful learned policy, language cooperation, humanlike civilization, generalization, or cross-world retention is established. Speech learning, independent-agent optimization, large populations, pretrained fine-tuning, full MuZero scaling/reanalysis and meaningful scientific evaluation remain future work. No GPU, API service or network server is started automatically.
 
 This repository contains curated source and a recorded preview with provenance. Model weights, checkpoints, raw run datasets, personal context and earlier private development history are excluded. Existing local work/history was preserved separately; this is a clean public source history rather than a rewritten remote history.
+
+## Synthetic-v2 real-control engineering result
+
+[First compatible CPU policy run](docs/experiments/synthetic-control-001.md) uses
+the exact published eight-agent environment through a Node bridge. The trained
+policy underperforms untrained, random and scripted references; the live homepage
+continues to use clearly labeled scripted policies. Checkpoints remain private.

@@ -1,0 +1,4732 @@
+{
+  "protocol": {
+    "environment_version": "synthetic-survival-v2.0",
+    "environment_agents": 8,
+    "observations": "8 x 5 x 5 local channels, no overhead state or agent ID",
+    "model": "frozen categorical RSSM posterior + shared linear actor/critic",
+    "world_model_training_worlds": 16,
+    "world_model_updates": 300,
+    "model_seed": 0,
+    "policy_seed": 123,
+    "policy_updates": 128,
+    "joint_steps_per_update": 16,
+    "candidate_updates": [
+      32,
+      64,
+      128
+    ],
+    "validation_seeds": [
+      220000,
+      220001,
+      220002,
+      220003,
+      220004,
+      220005,
+      220006,
+      220007
+    ],
+    "final_seeds": [
+      330000,
+      330001,
+      330002,
+      330003,
+      330004,
+      330005,
+      330006,
+      330007,
+      330008,
+      330009,
+      330010,
+      330011,
+      330012,
+      330013,
+      330014,
+      330015
+    ],
+    "recording_seed": 70000,
+    "training_seed_start": 110000,
+    "training_seed_end_exclusive": 200000,
+    "prefit_seed_start": 30000,
+    "selection": "highest validation mean per-agent alive-step return; earliest tie",
+    "final_role": "report only after checkpoint selection is frozen",
+    "gamma": 0.99,
+    "learning_rate": 0.001,
+    "entropy_weight": 0.01,
+    "reward": "1 per agent remaining alive after each transition; zero on death",
+    "return_ceiling": 95,
+    "wear_terminal_step": 96,
+    "planning": false,
+    "recycling": false,
+    "cpu_only": true,
+    "cost_usd": 0,
+    "environment_source_sha256": {
+      "policy-session.mjs": "5c04f1940bc10183d055d0441602a1b4ec12ded59438c9d22970ccb9139ee438",
+      "synthetic.mjs": "b37478572ab547b627e260b8a58675d280f859b97ad09a44398c2ad84309e881",
+      "example.mjs": "794ac697e62afc0320b1d14a97a25363eeab5a8773e0b18dd7a93f3a9dfad14e",
+      "scripted.mjs": "ed154a21c47600ebce79fd0ff50c767570d271710f8f5b6cb4aab2d9775e0f08",
+      "demo-runtime.mjs": "6d7deed6c4e1df42c475fa28c34326d50a7758d213d0489139ab9e8c27a8d8a6",
+      "renderer.mjs": "3c75d8c69fb8015c52aa5af83930d976037a16105133757494acde3cbe4d9b26",
+      "simulator.mjs": "a5ff118540feb39306e26028fcdffcaa376c8d9b6e25674c7750fbc633075e2a"
+    },
+    "model_config": {
+      "deter": 32,
+      "hidden": 32,
+      "stoch": 4,
+      "classes": 4,
+      "unimix": 0.01,
+      "free_nats": 1.0,
+      "dynamics_scale": 1.0,
+      "representation_scale": 0.1
+    },
+    "environment_commit": "e4d3f66a3f870fefe7340e35f206b587eb0c69e4",
+    "implementation_sha256": {
+      "world_model.py": "e3c26b0d480d4d44ec048c4f5d7c9a267fe6eb0b24f665b0c1ecc0c53acb8481",
+      "control.py": "e94134d8648248f773f994b8ecb148265915a45241d20febcf4e345c36a04c23",
+      "training.py": "5174a9cb6ec59276fd90b166072c0f477bd0ec76768c6bdc295282cef4b15bdd",
+      "synthetic-bridge.mjs": "f4f62c555bc8667c3a4e8b0ddbf4495c4cc3dbb9d9bf389b1af09e88ebeb3b05"
+    },
+    "adapter_sha256": "109190b1b7709e08ac69bedf0c1f13c1590459d67206eb6fae2642301bfd9b0a"
+  },
+  "world_model_real_agent_transitions": 9453,
+  "world_model_replay_sha256": "b792f63733f99e76f4019b01b61f080fbea9d2c0315ffd9b2b7680a43e6d7ac4",
+  "world_model_frozen_during_policy_training": true,
+  "total_policy_joint_steps": 2048,
+  "total_policy_active_agent_steps": 10729,
+  "total_policy_updates": 128,
+  "selected_updates": 32,
+  "validation_candidates": [
+    {
+      "updates": 32,
+      "joint_steps": 512,
+      "active_agent_steps": 2469,
+      "validation": {
+        "method": "trained",
+        "seed_count": 8,
+        "mean_per_agent_alive_step_return": 26.265625,
+        "fraction_of_return_ceiling": 0.27648026315789476,
+        "episodes": [
+          {
+            "seed": 220000,
+            "per_agent_returns": [
+              30.0,
+              23.0,
+              27.0,
+              28.0,
+              23.0,
+              23.0,
+              23.0,
+              33.0
+            ],
+            "mean_return": 26.25,
+            "joint_steps": 34,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              2,
+              0,
+              2,
+              1,
+              0,
+              0,
+              0,
+              2
+            ]
+          },
+          {
+            "seed": 220001,
+            "per_agent_returns": [
+              24.0,
+              33.0,
+              26.0,
+              33.0,
+              27.0,
+              35.0,
+              29.0,
+              28.0
+            ],
+            "mean_return": 29.375,
+            "joint_steps": 36,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              1,
+              3,
+              1,
+              2,
+              1,
+              3,
+              1,
+              1
+            ]
+          },
+          {
+            "seed": 220002,
+            "per_agent_returns": [
+              34.0,
+              23.0,
+              29.0,
+              23.0,
+              25.0,
+              31.0,
+              32.0,
+              23.0
+            ],
+            "mean_return": 27.5,
+            "joint_steps": 35,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              4,
+              0,
+              1,
+              0,
+              1,
+              1,
+              2,
+              0
+            ]
+          },
+          {
+            "seed": 220003,
+            "per_agent_returns": [
+              33.0,
+              32.0,
+              25.0,
+              23.0,
+              31.0,
+              27.0,
+              23.0,
+              31.0
+            ],
+            "mean_return": 28.125,
+            "joint_steps": 34,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              5,
+              2,
+              1,
+              0,
+              2,
+              1,
+              0,
+              3
+            ]
+          },
+          {
+            "seed": 220004,
+            "per_agent_returns": [
+              33.0,
+              23.0,
+              4.0,
+              36.0,
+              23.0,
+              23.0,
+              23.0,
+              23.0
+            ],
+            "mean_return": 23.5,
+            "joint_steps": 37,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "integrity failure"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              1,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "seed": 220005,
+            "per_agent_returns": [
+              23.0,
+              23.0,
+              23.0,
+              26.0,
+              23.0,
+              23.0,
+              23.0,
+              25.0
+            ],
+            "mean_return": 23.625,
+            "joint_steps": 27,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "seed": 220006,
+            "per_agent_returns": [
+              23.0,
+              23.0,
+              33.0,
+              13.0,
+              14.0,
+              33.0,
+              36.0,
+              25.0
+            ],
+            "mean_return": 25.0,
+            "joint_steps": 37,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "integrity failure"
+              ],
+              [
+                "integrity failure"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              0,
+              0,
+              2,
+              0,
+              1,
+              1,
+              4,
+              1
+            ]
+          },
+          {
+            "seed": 220007,
+            "per_agent_returns": [
+              23.0,
+              34.0,
+              28.0,
+              24.0,
+              29.0,
+              23.0,
+              27.0,
+              26.0
+            ],
+            "mean_return": 26.75,
+            "joint_steps": 35,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              0,
+              2,
+              1,
+              1,
+              1,
+              0,
+              2,
+              1
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "updates": 64,
+      "joint_steps": 1024,
+      "active_agent_steps": 5297,
+      "validation": {
+        "method": "trained",
+        "seed_count": 8,
+        "mean_per_agent_alive_step_return": 26.265625,
+        "fraction_of_return_ceiling": 0.27648026315789476,
+        "episodes": [
+          {
+            "seed": 220000,
+            "per_agent_returns": [
+              30.0,
+              23.0,
+              27.0,
+              28.0,
+              23.0,
+              23.0,
+              23.0,
+              33.0
+            ],
+            "mean_return": 26.25,
+            "joint_steps": 34,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              2,
+              0,
+              2,
+              1,
+              0,
+              0,
+              0,
+              2
+            ]
+          },
+          {
+            "seed": 220001,
+            "per_agent_returns": [
+              24.0,
+              33.0,
+              26.0,
+              33.0,
+              27.0,
+              35.0,
+              29.0,
+              28.0
+            ],
+            "mean_return": 29.375,
+            "joint_steps": 36,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              1,
+              3,
+              1,
+              2,
+              1,
+              3,
+              1,
+              1
+            ]
+          },
+          {
+            "seed": 220002,
+            "per_agent_returns": [
+              34.0,
+              23.0,
+              29.0,
+              23.0,
+              25.0,
+              31.0,
+              32.0,
+              23.0
+            ],
+            "mean_return": 27.5,
+            "joint_steps": 35,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              4,
+              0,
+              1,
+              0,
+              1,
+              1,
+              2,
+              0
+            ]
+          },
+          {
+            "seed": 220003,
+            "per_agent_returns": [
+              33.0,
+              32.0,
+              25.0,
+              23.0,
+              31.0,
+              27.0,
+              23.0,
+              31.0
+            ],
+            "mean_return": 28.125,
+            "joint_steps": 34,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              5,
+              2,
+              1,
+              0,
+              2,
+              1,
+              0,
+              3
+            ]
+          },
+          {
+            "seed": 220004,
+            "per_agent_returns": [
+              33.0,
+              23.0,
+              4.0,
+              36.0,
+              23.0,
+              23.0,
+              23.0,
+              23.0
+            ],
+            "mean_return": 23.5,
+            "joint_steps": 37,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "integrity failure"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              1,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "seed": 220005,
+            "per_agent_returns": [
+              23.0,
+              23.0,
+              23.0,
+              26.0,
+              23.0,
+              23.0,
+              23.0,
+              25.0
+            ],
+            "mean_return": 23.625,
+            "joint_steps": 27,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "seed": 220006,
+            "per_agent_returns": [
+              23.0,
+              23.0,
+              33.0,
+              13.0,
+              14.0,
+              33.0,
+              36.0,
+              25.0
+            ],
+            "mean_return": 25.0,
+            "joint_steps": 37,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "integrity failure"
+              ],
+              [
+                "integrity failure"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              0,
+              0,
+              2,
+              0,
+              1,
+              1,
+              4,
+              1
+            ]
+          },
+          {
+            "seed": 220007,
+            "per_agent_returns": [
+              23.0,
+              34.0,
+              28.0,
+              24.0,
+              29.0,
+              23.0,
+              27.0,
+              26.0
+            ],
+            "mean_return": 26.75,
+            "joint_steps": 35,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              0,
+              2,
+              1,
+              1,
+              1,
+              0,
+              2,
+              1
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "updates": 128,
+      "joint_steps": 2048,
+      "active_agent_steps": 10729,
+      "validation": {
+        "method": "trained",
+        "seed_count": 8,
+        "mean_per_agent_alive_step_return": 26.265625,
+        "fraction_of_return_ceiling": 0.27648026315789476,
+        "episodes": [
+          {
+            "seed": 220000,
+            "per_agent_returns": [
+              30.0,
+              23.0,
+              27.0,
+              28.0,
+              23.0,
+              23.0,
+              23.0,
+              33.0
+            ],
+            "mean_return": 26.25,
+            "joint_steps": 34,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              2,
+              0,
+              2,
+              1,
+              0,
+              0,
+              0,
+              2
+            ]
+          },
+          {
+            "seed": 220001,
+            "per_agent_returns": [
+              24.0,
+              33.0,
+              26.0,
+              33.0,
+              27.0,
+              35.0,
+              29.0,
+              28.0
+            ],
+            "mean_return": 29.375,
+            "joint_steps": 36,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              1,
+              3,
+              1,
+              2,
+              1,
+              3,
+              1,
+              1
+            ]
+          },
+          {
+            "seed": 220002,
+            "per_agent_returns": [
+              34.0,
+              23.0,
+              29.0,
+              23.0,
+              25.0,
+              31.0,
+              32.0,
+              23.0
+            ],
+            "mean_return": 27.5,
+            "joint_steps": 35,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              4,
+              0,
+              1,
+              0,
+              1,
+              1,
+              2,
+              0
+            ]
+          },
+          {
+            "seed": 220003,
+            "per_agent_returns": [
+              33.0,
+              32.0,
+              25.0,
+              23.0,
+              31.0,
+              27.0,
+              23.0,
+              31.0
+            ],
+            "mean_return": 28.125,
+            "joint_steps": 34,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              5,
+              2,
+              1,
+              0,
+              2,
+              1,
+              0,
+              3
+            ]
+          },
+          {
+            "seed": 220004,
+            "per_agent_returns": [
+              33.0,
+              23.0,
+              4.0,
+              36.0,
+              23.0,
+              23.0,
+              23.0,
+              23.0
+            ],
+            "mean_return": 23.5,
+            "joint_steps": 37,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "integrity failure"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              1,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "seed": 220005,
+            "per_agent_returns": [
+              23.0,
+              23.0,
+              23.0,
+              26.0,
+              23.0,
+              23.0,
+              23.0,
+              25.0
+            ],
+            "mean_return": 23.625,
+            "joint_steps": 27,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          {
+            "seed": 220006,
+            "per_agent_returns": [
+              23.0,
+              23.0,
+              33.0,
+              13.0,
+              14.0,
+              33.0,
+              36.0,
+              25.0
+            ],
+            "mean_return": 25.0,
+            "joint_steps": 37,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "integrity failure"
+              ],
+              [
+                "integrity failure"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              0,
+              0,
+              2,
+              0,
+              1,
+              1,
+              4,
+              1
+            ]
+          },
+          {
+            "seed": 220007,
+            "per_agent_returns": [
+              23.0,
+              34.0,
+              28.0,
+              24.0,
+              29.0,
+              23.0,
+              27.0,
+              26.0
+            ],
+            "mean_return": 26.75,
+            "joint_steps": 35,
+            "failure_causes": [
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ],
+              [
+                "power depletion"
+              ]
+            ],
+            "resources_consumed": [
+              0,
+              2,
+              1,
+              1,
+              1,
+              0,
+              2,
+              1
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "checkpoint_sha256": "4fcaa44a9276c372d8d057855a2d7fa59f2a11693c8a7370069d90535ddfa85d",
+  "final_comparisons": [
+    {
+      "method": "trained",
+      "seed_count": 16,
+      "mean_per_agent_alive_step_return": 24.453125,
+      "fraction_of_return_ceiling": 0.2574013157894737,
+      "episodes": [
+        {
+          "seed": 330000,
+          "per_agent_returns": [
+            23.0,
+            25.0,
+            15.0,
+            15.0,
+            4.0,
+            23.0,
+            29.0,
+            4.0
+          ],
+          "mean_return": 17.25,
+          "joint_steps": 30,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            1,
+            0,
+            2,
+            0,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "seed": 330001,
+          "per_agent_returns": [
+            23.0,
+            15.0,
+            15.0,
+            23.0,
+            13.0,
+            23.0,
+            23.0,
+            29.0
+          ],
+          "mean_return": 20.5,
+          "joint_steps": 30,
+          "failure_causes": [
+            [
+              "power depletion",
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            0,
+            1,
+            0,
+            2,
+            0,
+            0,
+            3
+          ]
+        },
+        {
+          "seed": 330002,
+          "per_agent_returns": [
+            25.0,
+            31.0,
+            23.0,
+            25.0,
+            33.0,
+            23.0,
+            28.0,
+            26.0
+          ],
+          "mean_return": 26.75,
+          "joint_steps": 34,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            2,
+            0,
+            1,
+            2,
+            0,
+            2,
+            1
+          ]
+        },
+        {
+          "seed": 330003,
+          "per_agent_returns": [
+            23.0,
+            30.0,
+            25.0,
+            16.0,
+            12.0,
+            33.0,
+            24.0,
+            23.0
+          ],
+          "mean_return": 23.25,
+          "joint_steps": 34,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            2,
+            1,
+            0
+          ]
+        },
+        {
+          "seed": 330004,
+          "per_agent_returns": [
+            24.0,
+            23.0,
+            23.0,
+            31.0,
+            24.0,
+            37.0,
+            26.0,
+            35.0
+          ],
+          "mean_return": 27.875,
+          "joint_steps": 38,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            0,
+            0,
+            1,
+            1,
+            4,
+            1,
+            5
+          ]
+        },
+        {
+          "seed": 330005,
+          "per_agent_returns": [
+            23.0,
+            13.0,
+            23.0,
+            25.0,
+            15.0,
+            4.0,
+            15.0,
+            27.0
+          ],
+          "mean_return": 18.125,
+          "joint_steps": 28,
+          "failure_causes": [
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            4,
+            1,
+            0,
+            1,
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "seed": 330006,
+          "per_agent_returns": [
+            27.0,
+            23.0,
+            14.0,
+            15.0,
+            26.0,
+            31.0,
+            23.0,
+            36.0
+          ],
+          "mean_return": 24.375,
+          "joint_steps": 37,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            2,
+            0,
+            1,
+            1,
+            1,
+            2,
+            0,
+            3
+          ]
+        },
+        {
+          "seed": 330007,
+          "per_agent_returns": [
+            23.0,
+            34.0,
+            33.0,
+            23.0,
+            33.0,
+            34.0,
+            23.0,
+            23.0
+          ],
+          "mean_return": 28.25,
+          "joint_steps": 35,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            2,
+            1,
+            0,
+            7,
+            4,
+            0,
+            0
+          ]
+        },
+        {
+          "seed": 330008,
+          "per_agent_returns": [
+            23.0,
+            31.0,
+            23.0,
+            28.0,
+            23.0,
+            24.0,
+            33.0,
+            23.0
+          ],
+          "mean_return": 26.0,
+          "joint_steps": 34,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            3,
+            0,
+            2,
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "seed": 330009,
+          "per_agent_returns": [
+            25.0,
+            23.0,
+            28.0,
+            24.0,
+            23.0,
+            35.0,
+            23.0,
+            23.0
+          ],
+          "mean_return": 25.5,
+          "joint_steps": 36,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            0,
+            2,
+            1,
+            0,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "seed": 330010,
+          "per_agent_returns": [
+            23.0,
+            33.0,
+            15.0,
+            29.0,
+            4.0,
+            32.0,
+            31.0,
+            32.0
+          ],
+          "mean_return": 24.875,
+          "joint_steps": 34,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            3,
+            3,
+            2,
+            0,
+            2,
+            1,
+            2
+          ]
+        },
+        {
+          "seed": 330011,
+          "per_agent_returns": [
+            23.0,
+            23.0,
+            23.0,
+            28.0,
+            23.0,
+            24.0,
+            23.0,
+            23.0
+          ],
+          "mean_return": 23.75,
+          "joint_steps": 29,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            0,
+            0,
+            3,
+            0,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "seed": 330012,
+          "per_agent_returns": [
+            33.0,
+            23.0,
+            23.0,
+            23.0,
+            25.0,
+            35.0,
+            15.0,
+            32.0
+          ],
+          "mean_return": 26.125,
+          "joint_steps": 36,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            3
+          ]
+        },
+        {
+          "seed": 330013,
+          "per_agent_returns": [
+            33.0,
+            23.0,
+            15.0,
+            13.0,
+            23.0,
+            28.0,
+            23.0,
+            33.0
+          ],
+          "mean_return": 23.875,
+          "joint_steps": 34,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            0,
+            1,
+            3,
+            0,
+            3,
+            0,
+            4
+          ]
+        },
+        {
+          "seed": 330014,
+          "per_agent_returns": [
+            23.0,
+            28.0,
+            35.0,
+            23.0,
+            23.0,
+            23.0,
+            23.0,
+            12.0
+          ],
+          "mean_return": 23.75,
+          "joint_steps": 36,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            1,
+            5,
+            0,
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "seed": 330015,
+          "per_agent_returns": [
+            37.0,
+            23.0,
+            37.0,
+            32.0,
+            34.0,
+            26.0,
+            23.0,
+            36.0
+          ],
+          "mean_return": 31.0,
+          "joint_steps": 38,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            2,
+            0,
+            2,
+            1,
+            5,
+            1,
+            0,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "method": "untrained",
+      "seed_count": 16,
+      "mean_per_agent_alive_step_return": 25.8046875,
+      "fraction_of_return_ceiling": 0.2716282894736842,
+      "episodes": [
+        {
+          "seed": 330000,
+          "per_agent_returns": [
+            28.0,
+            25.0,
+            23.0,
+            28.0,
+            13.0,
+            14.0,
+            31.0,
+            11.0
+          ],
+          "mean_return": 21.625,
+          "joint_steps": 32,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            1,
+            0,
+            2,
+            1,
+            1,
+            2,
+            1
+          ]
+        },
+        {
+          "seed": 330001,
+          "per_agent_returns": [
+            23.0,
+            23.0,
+            23.0,
+            30.0,
+            33.0,
+            23.0,
+            30.0,
+            14.0
+          ],
+          "mean_return": 24.875,
+          "joint_steps": 34,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            0,
+            0,
+            2,
+            2,
+            0,
+            2,
+            1
+          ]
+        },
+        {
+          "seed": 330002,
+          "per_agent_returns": [
+            13.0,
+            33.0,
+            23.0,
+            25.0,
+            28.0,
+            23.0,
+            23.0,
+            23.0
+          ],
+          "mean_return": 23.875,
+          "joint_steps": 34,
+          "failure_causes": [
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            3,
+            0,
+            1,
+            2,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "seed": 330003,
+          "per_agent_returns": [
+            15.0,
+            31.0,
+            38.0,
+            11.0,
+            23.0,
+            23.0,
+            24.0,
+            28.0
+          ],
+          "mean_return": 24.125,
+          "joint_steps": 39,
+          "failure_causes": [
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            2,
+            1,
+            5,
+            0,
+            0,
+            0,
+            1,
+            1
+          ]
+        },
+        {
+          "seed": 330004,
+          "per_agent_returns": [
+            24.0,
+            23.0,
+            37.0,
+            32.0,
+            24.0,
+            26.0,
+            24.0,
+            26.0
+          ],
+          "mean_return": 27.0,
+          "joint_steps": 38,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            0,
+            3,
+            2,
+            1,
+            1,
+            5,
+            1
+          ]
+        },
+        {
+          "seed": 330005,
+          "per_agent_returns": [
+            32.0,
+            33.0,
+            27.0,
+            25.0,
+            26.0,
+            30.0,
+            23.0,
+            23.0
+          ],
+          "mean_return": 27.375,
+          "joint_steps": 34,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            3,
+            1,
+            1,
+            1,
+            2,
+            2,
+            0,
+            0
+          ]
+        },
+        {
+          "seed": 330006,
+          "per_agent_returns": [
+            28.0,
+            14.0,
+            32.0,
+            29.0,
+            15.0,
+            23.0,
+            30.0,
+            25.0
+          ],
+          "mean_return": 24.5,
+          "joint_steps": 33,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            2,
+            0,
+            1,
+            3,
+            1,
+            0,
+            3,
+            1
+          ]
+        },
+        {
+          "seed": 330007,
+          "per_agent_returns": [
+            34.0,
+            35.0,
+            36.0,
+            23.0,
+            11.0,
+            23.0,
+            28.0,
+            23.0
+          ],
+          "mean_return": 26.625,
+          "joint_steps": 37,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            3,
+            3,
+            0,
+            0,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "seed": 330008,
+          "per_agent_returns": [
+            23.0,
+            33.0,
+            12.0,
+            25.0,
+            24.0,
+            27.0,
+            23.0,
+            27.0
+          ],
+          "mean_return": 24.25,
+          "joint_steps": 34,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            1,
+            0,
+            1,
+            4,
+            2,
+            0,
+            1
+          ]
+        },
+        {
+          "seed": 330009,
+          "per_agent_returns": [
+            25.0,
+            23.0,
+            26.0,
+            27.0,
+            23.0,
+            23.0,
+            31.0,
+            23.0
+          ],
+          "mean_return": 25.125,
+          "joint_steps": 32,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            0,
+            1,
+            3,
+            0,
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "seed": 330010,
+          "per_agent_returns": [
+            23.0,
+            28.0,
+            23.0,
+            26.0,
+            23.0,
+            23.0,
+            36.0,
+            23.0
+          ],
+          "mean_return": 25.625,
+          "joint_steps": 37,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            4,
+            0
+          ]
+        },
+        {
+          "seed": 330011,
+          "per_agent_returns": [
+            23.0,
+            35.0,
+            33.0,
+            25.0,
+            30.0,
+            24.0,
+            23.0,
+            23.0
+          ],
+          "mean_return": 27.0,
+          "joint_steps": 36,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            2,
+            3,
+            2,
+            1,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "seed": 330012,
+          "per_agent_returns": [
+            37.0,
+            23.0,
+            23.0,
+            15.0,
+            31.0,
+            25.0,
+            31.0,
+            23.0
+          ],
+          "mean_return": 26.0,
+          "joint_steps": 38,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            4,
+            0,
+            0,
+            2,
+            2,
+            3,
+            1,
+            0
+          ]
+        },
+        {
+          "seed": 330013,
+          "per_agent_returns": [
+            33.0,
+            27.0,
+            28.0,
+            30.0,
+            23.0,
+            24.0,
+            35.0,
+            25.0
+          ],
+          "mean_return": 28.125,
+          "joint_steps": 36,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            2,
+            2,
+            1,
+            3,
+            0,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "seed": 330014,
+          "per_agent_returns": [
+            26.0,
+            35.0,
+            26.0,
+            35.0,
+            23.0,
+            23.0,
+            31.0,
+            36.0
+          ],
+          "mean_return": 29.375,
+          "joint_steps": 37,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            2,
+            2,
+            1,
+            0,
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "seed": 330015,
+          "per_agent_returns": [
+            23.0,
+            29.0,
+            23.0,
+            32.0,
+            26.0,
+            35.0,
+            23.0,
+            28.0
+          ],
+          "mean_return": 27.375,
+          "joint_steps": 36,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            1,
+            0,
+            2,
+            2,
+            3,
+            0,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "method": "random",
+      "seed_count": 16,
+      "mean_per_agent_alive_step_return": 63.0234375,
+      "fraction_of_return_ceiling": 0.6634046052631579,
+      "episodes": [
+        {
+          "seed": 330000,
+          "per_agent_returns": [
+            95.0,
+            59.0,
+            23.0,
+            95.0,
+            95.0,
+            95.0,
+            95.0,
+            29.0
+          ],
+          "mean_return": 73.25,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            14,
+            4,
+            0,
+            20,
+            17,
+            16,
+            19,
+            1
+          ]
+        },
+        {
+          "seed": 330001,
+          "per_agent_returns": [
+            35.0,
+            27.0,
+            23.0,
+            49.0,
+            95.0,
+            23.0,
+            23.0,
+            32.0
+          ],
+          "mean_return": 38.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            3,
+            0,
+            8,
+            18,
+            0,
+            0,
+            2
+          ]
+        },
+        {
+          "seed": 330002,
+          "per_agent_returns": [
+            95.0,
+            95.0,
+            41.0,
+            24.0,
+            95.0,
+            23.0,
+            23.0,
+            95.0
+          ],
+          "mean_return": 61.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            17,
+            13,
+            2,
+            1,
+            20,
+            0,
+            0,
+            14
+          ]
+        },
+        {
+          "seed": 330003,
+          "per_agent_returns": [
+            59.0,
+            61.0,
+            23.0,
+            95.0,
+            50.0,
+            51.0,
+            95.0,
+            95.0
+          ],
+          "mean_return": 66.125,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            10,
+            11,
+            0,
+            16,
+            7,
+            8,
+            12,
+            16
+          ]
+        },
+        {
+          "seed": 330004,
+          "per_agent_returns": [
+            41.0,
+            74.0,
+            95.0,
+            63.0,
+            95.0,
+            87.0,
+            72.0,
+            60.0
+          ],
+          "mean_return": 73.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ]
+          ],
+          "resources_consumed": [
+            3,
+            6,
+            23,
+            9,
+            17,
+            11,
+            10,
+            9
+          ]
+        },
+        {
+          "seed": 330005,
+          "per_agent_returns": [
+            95.0,
+            95.0,
+            95.0,
+            23.0,
+            95.0,
+            11.0,
+            38.0,
+            95.0
+          ],
+          "mean_return": 68.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion",
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            16,
+            17,
+            11,
+            0,
+            17,
+            1,
+            2,
+            17
+          ]
+        },
+        {
+          "seed": 330006,
+          "per_agent_returns": [
+            95.0,
+            14.0,
+            51.0,
+            95.0,
+            88.0,
+            95.0,
+            37.0,
+            95.0
+          ],
+          "mean_return": 71.25,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            14,
+            0,
+            9,
+            17,
+            12,
+            12,
+            3,
+            14
+          ]
+        },
+        {
+          "seed": 330007,
+          "per_agent_returns": [
+            95.0,
+            23.0,
+            23.0,
+            43.0,
+            24.0,
+            63.0,
+            86.0,
+            76.0
+          ],
+          "mean_return": 54.125,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ]
+          ],
+          "resources_consumed": [
+            15,
+            0,
+            0,
+            2,
+            3,
+            13,
+            17,
+            15
+          ]
+        },
+        {
+          "seed": 330008,
+          "per_agent_returns": [
+            95.0,
+            95.0,
+            28.0,
+            95.0,
+            23.0,
+            88.0,
+            95.0,
+            95.0
+          ],
+          "mean_return": 76.75,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            20,
+            15,
+            1,
+            22,
+            0,
+            12,
+            10,
+            15
+          ]
+        },
+        {
+          "seed": 330009,
+          "per_agent_returns": [
+            28.0,
+            27.0,
+            40.0,
+            46.0,
+            95.0,
+            23.0,
+            33.0,
+            55.0
+          ],
+          "mean_return": 43.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            5,
+            2,
+            2,
+            3,
+            17,
+            0,
+            1,
+            6
+          ]
+        },
+        {
+          "seed": 330010,
+          "per_agent_returns": [
+            95.0,
+            95.0,
+            93.0,
+            29.0,
+            36.0,
+            49.0,
+            95.0,
+            95.0
+          ],
+          "mean_return": 73.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            16,
+            14,
+            9,
+            2,
+            3,
+            4,
+            20,
+            19
+          ]
+        },
+        {
+          "seed": 330011,
+          "per_agent_returns": [
+            95.0,
+            28.0,
+            95.0,
+            26.0,
+            95.0,
+            92.0,
+            13.0,
+            51.0
+          ],
+          "mean_return": 61.875,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            16,
+            2,
+            10,
+            2,
+            13,
+            12,
+            0,
+            3
+          ]
+        },
+        {
+          "seed": 330012,
+          "per_agent_returns": [
+            30.0,
+            95.0,
+            83.0,
+            48.0,
+            32.0,
+            26.0,
+            34.0,
+            44.0
+          ],
+          "mean_return": 49.0,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            2,
+            28,
+            10,
+            3,
+            3,
+            5,
+            1,
+            2
+          ]
+        },
+        {
+          "seed": 330013,
+          "per_agent_returns": [
+            46.0,
+            23.0,
+            23.0,
+            52.0,
+            27.0,
+            95.0,
+            54.0,
+            95.0
+          ],
+          "mean_return": 51.875,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            1,
+            0,
+            0,
+            12,
+            2,
+            16,
+            5,
+            13
+          ]
+        },
+        {
+          "seed": 330014,
+          "per_agent_returns": [
+            23.0,
+            95.0,
+            95.0,
+            95.0,
+            95.0,
+            95.0,
+            84.0,
+            86.0
+          ],
+          "mean_return": 83.5,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion",
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            16,
+            11,
+            19,
+            13,
+            17,
+            11,
+            13
+          ]
+        },
+        {
+          "seed": 330015,
+          "per_agent_returns": [
+            49.0,
+            64.0,
+            95.0,
+            95.0,
+            28.0,
+            50.0,
+            23.0,
+            95.0
+          ],
+          "mean_return": 62.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            3,
+            6,
+            11,
+            19,
+            1,
+            13,
+            0,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "method": "scripted",
+      "seed_count": 16,
+      "mean_per_agent_alive_step_return": 78.6015625,
+      "fraction_of_return_ceiling": 0.8273848684210526,
+      "episodes": [
+        {
+          "seed": 330000,
+          "per_agent_returns": [
+            77.0,
+            77.0,
+            33.0,
+            95.0,
+            95.0,
+            95.0,
+            95.0,
+            74.0
+          ],
+          "mean_return": 80.125,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ]
+          ],
+          "resources_consumed": [
+            13,
+            17,
+            3,
+            34,
+            34,
+            44,
+            27,
+            8
+          ]
+        },
+        {
+          "seed": 330001,
+          "per_agent_returns": [
+            95.0,
+            95.0,
+            68.0,
+            78.0,
+            51.0,
+            66.0,
+            54.0,
+            95.0
+          ],
+          "mean_return": 75.25,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            32,
+            35,
+            10,
+            8,
+            20,
+            10,
+            7,
+            19
+          ]
+        },
+        {
+          "seed": 330002,
+          "per_agent_returns": [
+            95.0,
+            95.0,
+            95.0,
+            95.0,
+            95.0,
+            95.0,
+            34.0,
+            95.0
+          ],
+          "mean_return": 87.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            24,
+            31,
+            36,
+            25,
+            36,
+            18,
+            2,
+            28
+          ]
+        },
+        {
+          "seed": 330003,
+          "per_agent_returns": [
+            95.0,
+            95.0,
+            95.0,
+            95.0,
+            95.0,
+            95.0,
+            77.0,
+            77.0
+          ],
+          "mean_return": 90.5,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            26,
+            26,
+            30,
+            29,
+            25,
+            25,
+            12,
+            8
+          ]
+        },
+        {
+          "seed": 330004,
+          "per_agent_returns": [
+            95.0,
+            85.0,
+            95.0,
+            80.0,
+            95.0,
+            95.0,
+            95.0,
+            92.0
+          ],
+          "mean_return": 91.5,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            29,
+            11,
+            35,
+            11,
+            37,
+            23,
+            26,
+            19
+          ]
+        },
+        {
+          "seed": 330005,
+          "per_agent_returns": [
+            95.0,
+            95.0,
+            33.0,
+            95.0,
+            82.0,
+            95.0,
+            86.0,
+            95.0
+          ],
+          "mean_return": 84.5,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            32,
+            22,
+            3,
+            35,
+            19,
+            27,
+            39,
+            21
+          ]
+        },
+        {
+          "seed": 330006,
+          "per_agent_returns": [
+            95.0,
+            87.0,
+            95.0,
+            95.0,
+            95.0,
+            95.0,
+            50.0,
+            95.0
+          ],
+          "mean_return": 88.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            36,
+            15,
+            28,
+            25,
+            27,
+            24,
+            5,
+            33
+          ]
+        },
+        {
+          "seed": 330007,
+          "per_agent_returns": [
+            73.0,
+            95.0,
+            32.0,
+            95.0,
+            95.0,
+            95.0,
+            51.0,
+            95.0
+          ],
+          "mean_return": 78.875,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            11,
+            30,
+            6,
+            21,
+            18,
+            29,
+            20,
+            41
+          ]
+        },
+        {
+          "seed": 330008,
+          "per_agent_returns": [
+            95.0,
+            49.0,
+            95.0,
+            95.0,
+            54.0,
+            33.0,
+            95.0,
+            95.0
+          ],
+          "mean_return": 76.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            22,
+            12,
+            32,
+            28,
+            13,
+            2,
+            45,
+            36
+          ]
+        },
+        {
+          "seed": 330009,
+          "per_agent_returns": [
+            95.0,
+            23.0,
+            95.0,
+            95.0,
+            48.0,
+            95.0,
+            49.0,
+            49.0
+          ],
+          "mean_return": 68.625,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            34,
+            0,
+            19,
+            44,
+            3,
+            36,
+            6,
+            7
+          ]
+        },
+        {
+          "seed": 330010,
+          "per_agent_returns": [
+            23.0,
+            23.0,
+            49.0,
+            67.0,
+            95.0,
+            15.0,
+            67.0,
+            95.0
+          ],
+          "mean_return": 54.25,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            0,
+            0,
+            10,
+            13,
+            50,
+            1,
+            12,
+            41
+          ]
+        },
+        {
+          "seed": 330011,
+          "per_agent_returns": [
+            95.0,
+            62.0,
+            95.0,
+            95.0,
+            27.0,
+            95.0,
+            33.0,
+            95.0
+          ],
+          "mean_return": 74.625,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            17,
+            10,
+            17,
+            41,
+            2,
+            41,
+            5,
+            46
+          ]
+        },
+        {
+          "seed": 330012,
+          "per_agent_returns": [
+            95.0,
+            95.0,
+            27.0,
+            32.0,
+            95.0,
+            58.0,
+            58.0,
+            95.0
+          ],
+          "mean_return": 69.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            28,
+            40,
+            6,
+            5,
+            31,
+            9,
+            8,
+            43
+          ]
+        },
+        {
+          "seed": 330013,
+          "per_agent_returns": [
+            95.0,
+            95.0,
+            95.0,
+            26.0,
+            71.0,
+            95.0,
+            95.0,
+            95.0
+          ],
+          "mean_return": 83.375,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            18,
+            25,
+            31,
+            6,
+            17,
+            23,
+            32,
+            44
+          ]
+        },
+        {
+          "seed": 330014,
+          "per_agent_returns": [
+            95.0,
+            95.0,
+            95.0,
+            38.0,
+            38.0,
+            95.0,
+            40.0,
+            95.0
+          ],
+          "mean_return": 73.875,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ]
+          ],
+          "resources_consumed": [
+            32,
+            28,
+            51,
+            2,
+            8,
+            26,
+            6,
+            29
+          ]
+        },
+        {
+          "seed": 330015,
+          "per_agent_returns": [
+            46.0,
+            95.0,
+            95.0,
+            63.0,
+            95.0,
+            78.0,
+            95.0,
+            78.0
+          ],
+          "mean_return": 80.625,
+          "joint_steps": 96,
+          "failure_causes": [
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "integrity failure"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ],
+            [
+              "lifetime wear"
+            ],
+            [
+              "power depletion"
+            ]
+          ],
+          "resources_consumed": [
+            2,
+            29,
+            34,
+            17,
+            33,
+            17,
+            34,
+            14
+          ]
+        }
+      ]
+    }
+  ],
+  "representative_recording": {
+    "method": "trained",
+    "seed_count": 1,
+    "mean_per_agent_alive_step_return": 25.125,
+    "fraction_of_return_ceiling": 0.2644736842105263,
+    "episodes": [
+      {
+        "seed": 70000,
+        "per_agent_returns": [
+          32.0,
+          23.0,
+          28.0,
+          23.0,
+          23.0,
+          23.0,
+          23.0,
+          26.0
+        ],
+        "mean_return": 25.125,
+        "joint_steps": 33,
+        "failure_causes": [
+          [
+            "power depletion"
+          ],
+          [
+            "power depletion"
+          ],
+          [
+            "power depletion"
+          ],
+          [
+            "power depletion"
+          ],
+          [
+            "power depletion"
+          ],
+          [
+            "power depletion"
+          ],
+          [
+            "power depletion"
+          ],
+          [
+            "power depletion"
+          ]
+        ],
+        "resources_consumed": [
+          1,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          2
+        ]
+      }
+    ]
+  },
+  "checkpoint_reload_recording_match": true,
+  "elapsed_seconds": 17.6796470079571,
+  "cost_usd": 0,
+  "limitations": [
+    "One training seed, bounded engineering run; no retention or generalization proof",
+    "Frozen small posterior and linear heads; incomplete Draft-2 model",
+    "Actual synthetic v2 browser rules; no learned-prior planning or recycling",
+    "Performance claims must compare all held-out references; trained does not imply improved"
+  ]
+}
