@@ -1,0 +1,86 @@
+{
+  "experiment": "bounded critic optimization ratio comparison",
+  "architecture": "unchanged frozen RSSM posterior + shared linear actor/value",
+  "world_model_seed": 0,
+  "frozen_world_source": "original synthetic-control-001 checkpoint",
+  "source_checkpoint_sha256": "4fcaa44a9276c372d8d057855a2d7fa59f2a11693c8a7370069d90535ddfa85d",
+  "policy_seeds": [
+    123,
+    456,
+    789
+  ],
+  "critic_updates_per_actor_update": [
+    1,
+    8
+  ],
+  "actor_updates_per_run": 128,
+  "joint_steps_per_update": 16,
+  "joint_steps_per_run": 2048,
+  "max_active_agent_steps_per_run": 16384,
+  "learning_rate": 0.001,
+  "gamma": 0.99,
+  "target_ema": 0.99,
+  "target_refresh": "once per actor update after all critic fits",
+  "extra_critic_targets": "same frozen n-step targets as the actor update; inactive masked",
+  "policy_action_mode": "sampled",
+  "reward": "unchanged survival, terminal reward zero",
+  "training_world_seed_start": 120000,
+  "development_world_seeds": [
+    700000,
+    700001,
+    700002,
+    700003,
+    700004,
+    700005,
+    700006,
+    700007
+  ],
+  "reserved_final_world_seeds": [
+    800000,
+    800001,
+    800002,
+    800003,
+    800004,
+    800005,
+    800006,
+    800007,
+    800008,
+    800009,
+    800010,
+    800011,
+    800012,
+    800013,
+    800014,
+    800015
+  ],
+  "candidate_actor_updates": [
+    32,
+    64,
+    128
+  ],
+  "selection": "highest development survival per run; earliest update ties; freeze all before any final",
+  "final_role": "report all arms and references, no tuning or reselection",
+  "controls": [
+    "matched untrained per policy seed",
+    "same fixed uniform random",
+    "same fixed local scripted"
+  ],
+  "deployment_gate": "No automatic deployment. Require extra-fit policy beats scripted, random and matched untrained in mean and majority of paired worlds for every policy seed; reproducible checkpoint reload.",
+  "representation_changed": false,
+  "recycling": false,
+  "planning": false,
+  "cpu_only": true,
+  "cost_usd": 0,
+  "environment_commit": "e4d3f66a3f870fefe7340e35f206b587eb0c69e4",
+  "environment_source_sha256": {
+    "policy-session.mjs": "5c04f1940bc10183d055d0441602a1b4ec12ded59438c9d22970ccb9139ee438",
+    "synthetic.mjs": "b37478572ab547b627e260b8a58675d280f859b97ad09a44398c2ad84309e881",
+    "example.mjs": "794ac697e62afc0320b1d14a97a25363eeab5a8773e0b18dd7a93f3a9dfad14e",
+    "scripted.mjs": "ed154a21c47600ebce79fd0ff50c767570d271710f8f5b6cb4aab2d9775e0f08",
+    "demo-runtime.mjs": "6d7deed6c4e1df42c475fa28c34326d50a7758d213d0489139ab9e8c27a8d8a6",
+    "renderer.mjs": "3c75d8c69fb8015c52aa5af83930d976037a16105133757494acde3cbe4d9b26",
+    "simulator.mjs": "a5ff118540feb39306e26028fcdffcaa376c8d9b6e25674c7750fbc633075e2a"
+  },
+  "adapter_sha256": "1f5d2e9b2059529ec111a02d3285b29007776fcdb3785b8e0c6820997229a578",
+  "experiment_script_sha256": "ee22cb61acc673a813f531f46c4e2b2534671f5d5fe3e6f9cb966e024b345fe7"
+}

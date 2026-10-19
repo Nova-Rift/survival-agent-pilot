@@ -1,4 +1,5 @@
 import unittest
+from copy import deepcopy
 from pathlib import Path
 import numpy as np
 import torch
@@ -102,6 +103,27 @@ class SyntheticControlTests(unittest.TestCase):
             self.assertEqual(first,second);self.assertEqual(frames,repeated)
             torch.testing.assert_close(rng,torch.get_rng_state(),rtol=0,atol=0)
             self.assertGreater(sum(x>0 for x in first['episodes'][0]['action_counts']),1)
+        finally:bridge.close()
+
+    def test_extra_critic_fits_do_not_update_actor_or_world_and_ema_runs_once(self):
+        torch.manual_seed(0);agent=PosteriorActorCritic(WorldModel(SPEC,MODEL))
+        baseline=deepcopy(agent);bridge=Bridge(ENV)
+        try:
+            one=SyntheticTrainer(bridge,baseline)
+            eight=SyntheticTrainer(bridge,agent,critic_updates=8)
+            batch=one.collect()
+            old_target={k:v.clone() for k,v in agent.target_value.state_dict().items()}
+            world={k:v.clone() for k,v in agent.world_model.state_dict().items()}
+            one.update(batch);metrics=eight.update(batch)
+            for k,v in baseline.actor.state_dict().items():torch.testing.assert_close(v,agent.actor.state_dict()[k],rtol=0,atol=0)
+            for k,v in world.items():torch.testing.assert_close(v,agent.world_model.state_dict()[k],rtol=0,atol=0)
+            for k,v in agent.target_value.state_dict().items():
+                torch.testing.assert_close(v,old_target[k]*.99+agent.value.state_dict()[k]*.01)
+            self.assertEqual(metrics['critic_updates'],8)
+            self.assertLess(metrics['critic_mse_after_fit'],metrics['critic_loss'])
+            self.assertEqual(int(eight.optimizer.state[agent.actor.weight]['step']),1)
+            self.assertEqual(int(eight.optimizer.state[agent.value.weight]['step']),8)
+            with self.assertRaises(ValueError):SyntheticTrainer(bridge,agent,critic_updates=0)
         finally:bridge.close()
 
 if __name__=='__main__':unittest.main()

@@ -1,0 +1,42 @@
+{
+  "probe": "fixed existing n-step targets; critic only, original checkpoint unchanged",
+  "fit_world_seed_start": 111000,
+  "dev_world_seed_start": 112000,
+  "fit_samples": 460,
+  "dev_samples": 342,
+  "rows": [
+    {
+      "updates": 0,
+      "train_mse": 74.63753509521484,
+      "dev_mse": 72.38579559326172,
+      "mean_value": 0.319118469953537,
+      "target_mean": 7.644399166107178
+    },
+    {
+      "updates": 128,
+      "train_mse": 51.976749420166016,
+      "dev_mse": 50.786739349365234,
+      "mean_value": 2.0620930194854736,
+      "target_mean": 7.644399166107178
+    },
+    {
+      "updates": 1024,
+      "train_mse": 19.50161361694336,
+      "dev_mse": 19.964988708496094,
+      "mean_value": 7.534517288208008,
+      "target_mean": 7.644399166107178
+    },
+    {
+      "updates": 4096,
+      "train_mse": 15.294514656066895,
+      "dev_mse": 14.739912033081055,
+      "mean_value": 7.9874467849731445,
+      "target_mean": 7.644399166107178
+    }
+  ],
+  "least_squares_train_mse": 14.216179943052786,
+  "least_squares_dev_mse": 13.07619916828799,
+  "feature_rank": 33,
+  "seconds": 2.034709310159087,
+  "paid_cost_usd": 0
+}

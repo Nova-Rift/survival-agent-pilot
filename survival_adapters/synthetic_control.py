@@ -160,8 +160,11 @@ def evaluate(bridge, agent, seeds, method='trained', record=False, *, action_mod
         'fraction_of_return_ceiling':mean/95,'episodes':rows},recordings
 
 class SyntheticTrainer:
-    def __init__(self,bridge,agent):
+    def __init__(self,bridge,agent,*,critic_updates=1):
+        if type(critic_updates) is not int or not 1<=critic_updates<=8:
+            raise ValueError('Critic updates per actor update must be 1..8')
         self.bridge,self.agent=bridge,agent
+        self.critic_updates=critic_updates
         self.optimizer=torch.optim.Adam(agent.trainable_parameters(),lr=.001)
         self.rng=torch.Generator().manual_seed(123)
         self.next_seed=110000;self.joint_steps=0;self.active_steps=0;self.updates=0
@@ -211,9 +214,26 @@ class SyntheticTrainer:
         if not torch.isfinite(loss):raise FloatingPointError('Nonfinite synthetic control loss')
         self.optimizer.zero_grad(set_to_none=True);loss.backward()
         norm=torch.nn.utils.clip_grad_norm_(self.agent.trainable_parameters(),1.,error_if_nonfinite=True)
-        self.optimizer.step();self.agent.update_target(.99);self.updates+=1
+        self.optimizer.step()
+        # Optional bounded critic fitting on these same frozen n-step targets.
+        # No extra actor update, interaction, target refresh or shared-model change.
+        for _ in range(self.critic_updates-1):
+            prediction=self.agent.value(batch['features'].flatten(0,1).detach()).squeeze(-1)
+            value_loss=.5*((prediction-returns).square()*mask).sum()/denom
+            if not torch.isfinite(value_loss):raise FloatingPointError('Nonfinite critic fitting loss')
+            self.optimizer.zero_grad(set_to_none=True);value_loss.backward()
+            torch.nn.utils.clip_grad_norm_(self.agent.value.parameters(),1.,error_if_nonfinite=True)
+            self.optimizer.step()
+        # Exactly one EMA update per actor update, using the final fitted value.
+        self.agent.update_target(.99);self.updates+=1
+        with torch.no_grad():
+            final_value=self.agent.value(batch['features'].flatten(0,1)).squeeze(-1)
+            final_mse=((final_value-returns).square()*mask).sum()/denom
         return {'updates':self.updates,'joint_steps':self.joint_steps,'active_agent_steps':self.active_steps,
             'actor_loss':float(actor.detach()),'critic_loss':float(critic.detach()),
+            'critic_mse_after_fit':float(final_mse),'critic_updates':self.critic_updates,
+            'mean_value_before':float(value[active].detach().mean()),
+            'mean_target':float(returns[active].mean()),
             'entropy':float(entropy.detach()),'gradient_norm':float(norm)}
 
 def run(output,environment):
