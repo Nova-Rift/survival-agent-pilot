@@ -6,6 +6,7 @@ from survival_env.simulator import Config
 from survival_agent.hybrid.contracts import VectorAdapter
 from survival_adapters.hybrid_survival import SurvivalVectorEnv, collect_replay
 from examples.hybrid_stage_b import run
+from examples.hybrid_stage_b_diagnostic import episode_row, sample_complete_episodes, coverage
 
 
 class HybridSurvivalTests(unittest.TestCase):
@@ -54,6 +55,33 @@ class HybridSurvivalTests(unittest.TestCase):
             self.assertEqual(len((output/'updates.jsonl').read_text().splitlines()), 2)
             with self.assertRaises(ValueError):run(output, updates=2)
             with self.assertRaises(ValueError):run(Path(tmp)/'invalid', updates=1000)
+
+    def test_complete_episode_sampling_keeps_endpoint_targets_and_copies(self):
+        replay, _ = collect_replay(episodes=4, seed=0)
+        saved = [e['observations'].copy() for e in replay.episodes]
+        for seed in range(4):
+            rows = sample_complete_episodes(replay, np.random.default_rng(seed))
+            self.assertEqual(len({len(row['actions']) for row in rows}), 1)
+            for row in rows:
+                self.assertTrue(row['terminated'][-1] or row['truncated'][-1])
+                self.assertTrue(row['loss_mask'][-1])
+                self.assertFalse(row['loss_mask'][0])
+                self.assertEqual(len(row['observations']), len(row['actions'])+1)
+                np.testing.assert_array_equal(row['rewards'], (~row['terminated']).astype(np.float32))
+                row['observations'][:] = -100
+            self.assertGreater(coverage(rows)['supervised_transitions'], 0)
+        for before, after in zip(saved, replay.episodes):
+            np.testing.assert_array_equal(before, after['observations'])
+
+    def test_simultaneous_death_and_horizon_retains_death_continuation_label(self):
+        env = SurvivalVectorEnv(Config(size=4, agents=1, radius=1, max_hunger=1,
+                                       initial_food=0, food_per_step=0, horizon=1))
+        adapter = VectorAdapter(env, env.spec); adapter.reset(seed=0)
+        transition = adapter.step(0)
+        self.assertTrue(transition.terminated); self.assertTrue(transition.truncated)
+        self.assertEqual(transition.reward, 0.)
+        self.assertEqual(transition.continuation, 0.)
+        self.assertFalse(transition.next_observation.any())
 
 
 if __name__ == '__main__':

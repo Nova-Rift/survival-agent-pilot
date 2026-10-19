@@ -1,5 +1,7 @@
 # Stage-B survival integration
 
+[Follow-up: broader coverage and posterior/prior diagnostic](hybrid-stage-b-diagnostic.md)
+
 This branch (`hybrid-stage-b-survival`) owns only the concrete survival adapter,
 real replay collection and smoke example. The RSSM and trainer are independently
 maintained in sibling `survival-agent` branch `hybrid-stage-b`; environment rules

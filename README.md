@@ -9,6 +9,7 @@ A small, inspectable multiagent survival research scaffold. **This is an enginee
 Start reading:
 
 - [Stage-B recurrent world-model survival smoke and measured limitations](docs/hybrid-stage-b.md)
+- [Open-loop diagnostic: held-out seeds, target coverage and trivial baselines](docs/hybrid-stage-b-diagnostic.md)
 - [MuZero-style model, PUCT MCTS, replay and recurrent losses](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/muzero.py)
 - [Small transformer-history agent](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/agent.py)
 - [Local pretrained/scratch language backend](https://github.com/Nova-Rift/survival-agent/blob/main/survival_agent/language_backend.py)
