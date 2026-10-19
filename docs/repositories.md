@@ -8,7 +8,7 @@
 | Agent | [Nova-Rift/survival-agent](https://github.com/Nova-Rift/survival-agent), `e3007112887c25b2d17a7a7c3576d53322ceccd2` |
 | Integration | [Nova-Rift/survival-agent-pilot](https://github.com/Nova-Rift/survival-agent-pilot), adapters/examples/tests/demo |
 
-The existing pilot history is retained. Environment/model source is extracted from pilot commit `be2e3f4`; new work belongs in the canonical repository. Do not maintain copied source here. Integration package metadata pins exact Git source commits rather than guessing a PyPI package. New public repository creation and public link verification must complete before this integration change is pushed.
+The existing pilot history is retained. Environment/model source is extracted from pilot commit `be2e3f4`; new work belongs in the canonical repository. Do not maintain copied source here. Integration package metadata pins exact Git source commits rather than guessing a PyPI package. Both canonical repositories are now public. Their extraction commits and every published source file were verified before the integration update. Pins above intentionally retain the tested source commits; later publication-record commits only update verification documentation.
 
 ## Source checkout workflow, without installing anything
 
