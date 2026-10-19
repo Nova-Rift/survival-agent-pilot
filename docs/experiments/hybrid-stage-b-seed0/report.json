@@ -1,0 +1,321 @@
+{
+  "stage": "B recurrent world-model CPU smoke",
+  "seed": 0,
+  "runtime": {
+    "python": "3.10.12",
+    "numpy": "1.26.4",
+    "torch": "2.2.0+cu121"
+  },
+  "device": "cpu",
+  "threads": 1,
+  "config": {
+    "stage": "B",
+    "model": {
+      "deter": 32,
+      "hidden": 32,
+      "stoch": 4,
+      "classes": 4,
+      "unimix": 0.01,
+      "free_nats": 1.0,
+      "dynamics_scale": 1.0,
+      "representation_scale": 0.1
+    },
+    "environment": {
+      "size": 6,
+      "agents": 1,
+      "radius": 1,
+      "max_hunger": 4,
+      "initial_food": 3,
+      "food_per_step": 0,
+      "horizon": 8
+    },
+    "learning_rate": 0.001,
+    "burn_in": 1,
+    "unroll": 3,
+    "batch_size": 4,
+    "model_source_sha256": "e3c26b0d480d4d44ec048c4f5d7c9a267fe6eb0b24f665b0c1ecc0c53acb8481"
+  },
+  "parameters": 18639,
+  "training_collection": {
+    "config": {
+      "size": 6,
+      "agents": 1,
+      "radius": 1,
+      "max_hunger": 4,
+      "initial_food": 3,
+      "food_per_step": 0,
+      "horizon": 8
+    },
+    "episodes": [
+      {
+        "seed": 0,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "random",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 1,
+        "steps": 5,
+        "reward": 4.0,
+        "collector": "local_greedy",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 2,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "random",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 3,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "local_greedy",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 4,
+        "steps": 5,
+        "reward": 4.0,
+        "collector": "random",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 5,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "local_greedy",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 6,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "random",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 7,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "local_greedy",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 8,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "random",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 9,
+        "steps": 6,
+        "reward": 5.0,
+        "collector": "local_greedy",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 10,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "random",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 11,
+        "steps": 5,
+        "reward": 4.0,
+        "collector": "local_greedy",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 12,
+        "steps": 6,
+        "reward": 5.0,
+        "collector": "random",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 13,
+        "steps": 8,
+        "reward": 7.0,
+        "collector": "local_greedy",
+        "terminated": true,
+        "truncated": true
+      },
+      {
+        "seed": 14,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "random",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 15,
+        "steps": 8,
+        "reward": 7.0,
+        "collector": "local_greedy",
+        "terminated": true,
+        "truncated": true
+      }
+    ],
+    "real_steps": 79
+  },
+  "heldout_collection": {
+    "config": {
+      "size": 6,
+      "agents": 1,
+      "radius": 1,
+      "max_hunger": 4,
+      "initial_food": 3,
+      "food_per_step": 0,
+      "horizon": 8
+    },
+    "episodes": [
+      {
+        "seed": 1000,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "random",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 1001,
+        "steps": 8,
+        "reward": 7.0,
+        "collector": "local_greedy",
+        "terminated": true,
+        "truncated": true
+      },
+      {
+        "seed": 1002,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "random",
+        "terminated": true,
+        "truncated": false
+      },
+      {
+        "seed": 1003,
+        "steps": 4,
+        "reward": 3.0,
+        "collector": "local_greedy",
+        "terminated": true,
+        "truncated": false
+      }
+    ],
+    "real_steps": 20
+  },
+  "optimizer_updates": 40,
+  "before": {
+    "train_mode_loss": {
+      "reconstruction": 0.2911103665828705,
+      "reward": 0.07118532806634903,
+      "continuation": 0.5713768601417542,
+      "dynamics_kl": 1.0,
+      "representation_kl": 1.0,
+      "total": 2.033672571182251
+    },
+    "heldout_mode_loss": {
+      "reconstruction": 0.22549568116664886,
+      "reward": 0.13475929200649261,
+      "continuation": 0.5834090709686279,
+      "dynamics_kl": 1.0,
+      "representation_kl": 1.0,
+      "total": 2.04366397857666
+    },
+    "heldout_prior_errors": {
+      "1": {
+        "observation_mse": 0.6075238585472107,
+        "reward_mse": 0.36894989013671875,
+        "continuation_bce": 0.6416454911231995
+      },
+      "3": {
+        "observation_mse": 0.3371928334236145,
+        "reward_mse": 0.147909015417099,
+        "continuation_bce": 0.675273060798645
+      }
+    }
+  },
+  "after": {
+    "train_mode_loss": {
+      "reconstruction": 0.05005357787013054,
+      "reward": 0.005554697941988707,
+      "continuation": 0.22776488959789276,
+      "dynamics_kl": 1.016379475593567,
+      "representation_kl": 1.016379475593567,
+      "total": 1.4013906717300415
+    },
+    "heldout_mode_loss": {
+      "reconstruction": 0.052271872758865356,
+      "reward": 0.011206500232219696,
+      "continuation": 0.34247592091560364,
+      "dynamics_kl": 1.041927695274353,
+      "representation_kl": 1.041927695274353,
+      "total": 1.552074670791626
+    },
+    "heldout_prior_errors": {
+      "1": {
+        "observation_mse": 0.0945679321885109,
+        "reward_mse": 0.03762192651629448,
+        "continuation_bce": 0.21525168418884277
+      },
+      "3": {
+        "observation_mse": 0.10183040052652359,
+        "reward_mse": 0.5864376425743103,
+        "continuation_bce": 1.460463285446167
+      }
+    }
+  },
+  "first_update": {
+    "update": 1,
+    "reconstruction": 0.2532118260860443,
+    "reward": 0.18665854632854462,
+    "continuation": 0.7361173629760742,
+    "dynamics_kl": 1.0,
+    "representation_kl": 1.0,
+    "total": 2.2759876251220703,
+    "gradient_norm_before_clip": 2.8901710510253906
+  },
+  "last_update": {
+    "update": 40,
+    "reconstruction": 0.06281214952468872,
+    "reward": 0.0402204729616642,
+    "continuation": 0.31683146953582764,
+    "dynamics_kl": 1.0126978158950806,
+    "representation_kl": 1.0126978158950806,
+    "total": 1.5338315963745117,
+    "gradient_norm_before_clip": 1.0173065662384033
+  },
+  "checkpoint_diagnostics_match": true,
+  "checkpoint_replay_episodes": 16,
+  "elapsed_seconds": 0.8400299870409071,
+  "cost_usd": 0,
+  "trained_policy": false,
+  "planners_implemented": false,
+  "survival_improvement_claim": false,
+  "limitations": [
+    "Single training seed and tiny fixed held-out episode subset",
+    "Categorical-mode diagnostics approximate stochastic outcomes",
+    "Training updates only world-model prediction losses",
+    "No actor/value learning or survival/retention evaluation"
+  ]
+}
