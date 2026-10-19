@@ -35,6 +35,8 @@ PROTOCOL = {
     'training_seed_start':110000, 'training_seed_end_exclusive':200000,
     'prefit_seed_start':30000, 'selection':'highest validation mean per-agent alive-step return; earliest tie',
     'final_role':'report only after checkpoint selection is frozen',
+    'evaluation_action_mode':'sampled',
+    'evaluation_action_seed':'world seed + 11; independent fixed torch generator',
     'gamma':.99, 'learning_rate':.001, 'entropy_weight':.01,
     'reward':'1 per agent remaining alive after each transition; zero on death',
     'return_ceiling':95, 'wear_terminal_step':96,
@@ -100,27 +102,61 @@ def collect_prefit(bridge):
     assert count <= replay.capacity
     return replay,count
 
+def policy_actions(logits, *, action_mode, generator=None):
+    """Declare deployment semantics; categorical training is not argmax control."""
+    if action_mode=='greedy':return logits.argmax(-1)
+    if action_mode!='sampled' or generator is None:
+        raise ValueError('Sampled policy requires an explicit RNG; mode must be declared')
+    return torch.multinomial(logits.softmax(-1),1,generator=generator).squeeze(-1)
+
 @torch.no_grad()
-def evaluate(bridge, agent, seeds, method='trained', record=False):
+def evaluate(bridge, agent, seeds, method='trained', record=False, *, action_mode='greedy'):
+    # Greedy default preserves the original public diagnostic API; current run()
+    # explicitly evaluates the stochastic policy actually optimized by collect().
+    if method not in ['trained','untrained','random','scripted'] or action_mode not in ['greedy','sampled']:
+        raise ValueError('Explicit known policy and action mode required')
     rows, recordings = [],[]
     for seed in seeds:
         result = bridge.reset(seed); state = observe(agent.world_model,result)
         rng=np.random.default_rng(seed+11); returns=np.zeros(8); resources=np.zeros(8,dtype=int)
+        action_rng=torch.Generator().manual_seed(seed+11)
+        action_counts=np.zeros(5,dtype=int); entropy_sum=0.; max_probability_sum=0.;active_steps=0
+        move_attempts=0;stationary_moves=0;feature_sum=np.zeros(48);feature_square_sum=np.zeros(48)
+        posterior_modes=set()
         frames=[result['frame']] if record else []
         while not result['done']:
+            previous=result;active=np.asarray(previous['frame']['alive'],dtype=bool)
             if method=='random':actions=rng.integers(5,size=8)
             elif method=='scripted':actions=None
-            else:actions=agent.predict(agent.world_model.features(state))[0].argmax(-1).numpy()
+            else:
+                features=agent.world_model.features(state)
+                logits,_=agent.predict(features);probabilities=logits.softmax(-1)
+                entropy_sum+=float((-(probabilities*probabilities.log()).sum(-1))[active].sum())
+                max_probability_sum+=float(probabilities.max(-1).values[active].sum())
+                selected=features.numpy()[active];feature_sum+=selected.sum(0);feature_square_sum+=(selected**2).sum(0)
+                for mode in state.stoch.argmax(-1).numpy()[active]:posterior_modes.add(tuple(map(int,mode)))
+                actions=policy_actions(logits,action_mode=action_mode,generator=action_rng).numpy()
             result=bridge.step(actions,scripted=method=='scripted')
+            chosen=np.asarray(result['actions']);active_steps+=int(active.sum())
+            action_counts+=np.bincount(chosen[active],minlength=5)
+            moves=active&(chosen!=0);move_attempts+=int(moves.sum())
+            same=np.all(np.asarray(previous['frame']['positions'])==np.asarray(result['frame']['positions']),axis=1)
+            stationary_moves+=int((moves&same).sum())
             returns+=np.asarray(result['rewards']);resources+=np.asarray(result['info']['ate'],dtype=int)
             state=observe(agent.world_model,result,state,torch.tensor(result['actions'],dtype=torch.long))
             if record:frames.append(result['frame'])
         rows.append({'seed':seed,'per_agent_returns':returns.tolist(),'mean_return':float(returns.mean()),
             'joint_steps':result['frame']['tick'],'failure_causes':result['frame']['failureCauses'],
-            'resources_consumed':resources.tolist()})
+            'resources_consumed':resources.tolist(),'active_agent_steps':active_steps,
+            'action_counts':action_counts.tolist(),'stationary_move_attempts':stationary_moves,'move_attempts':move_attempts,
+            'mean_policy_entropy':None if method in ['random','scripted'] else entropy_sum/active_steps,
+            'mean_max_action_probability':None if method in ['random','scripted'] else max_probability_sum/active_steps,
+            'posterior_mode_combinations':None if method in ['random','scripted'] else len(posterior_modes),
+            'mean_feature_variance':None if method in ['random','scripted'] else float(np.maximum(0,feature_square_sum/active_steps-(feature_sum/active_steps)**2).mean())})
         if record:recordings.append(frames)
     mean=float(np.mean([x['mean_return'] for x in rows]))
-    return {'method':method,'seed_count':len(rows),'mean_per_agent_alive_step_return':mean,
+    return {'method':method,'action_mode':action_mode if method in ['trained','untrained'] else method,
+        'seed_count':len(rows),'mean_per_agent_alive_step_return':mean,
         'fraction_of_return_ceiling':mean/95,'episodes':rows},recordings
 
 class SyntheticTrainer:
@@ -142,7 +178,7 @@ class SyntheticTrainer:
             features=self.agent.world_model.features(self.state).detach().clone()
             active=torch.tensor(self.result['frame']['alive'],dtype=torch.bool)
             logits,_=self.agent.predict(features)
-            actions=torch.multinomial(logits.softmax(-1),1,generator=self.rng).squeeze(-1)
+            actions=policy_actions(logits,action_mode='sampled',generator=self.rng)
             result=self.bridge.step(actions.numpy())
             next_state=observe(self.agent.world_model,result,self.state,actions)
             # Same-episode true final value, before any reset; inactive slots masked.
@@ -215,7 +251,7 @@ def run(output,environment):
             for _ in range(PROTOCOL['policy_updates']):
                 logs.append(trainer.update(trainer.collect()))
                 if trainer.updates in PROTOCOL['candidate_updates']:
-                    validation,_=evaluate(evaluator,agent,PROTOCOL['validation_seeds'])
+                    validation,_=evaluate(evaluator,agent,PROTOCOL['validation_seeds'],action_mode=PROTOCOL['evaluation_action_mode'])
                     candidates.append({'updates':trainer.updates,'joint_steps':trainer.joint_steps,
                         'active_agent_steps':trainer.active_steps,'validation':validation,'weights':deepcopy(agent.state_dict())})
                     print(json.dumps({'phase':'validation','updates':trainer.updates,'return':validation['mean_per_agent_alive_step_return']}),flush=True)
@@ -231,12 +267,12 @@ def run(output,environment):
             (output/'selection-frozen.json').write_text(json.dumps(frozen,indent=2)+'\n')
             comparisons=[]
             for method in ['trained','untrained','random','scripted']:
-                result,_=evaluate(evaluator,untrained if method=='untrained' else agent,PROTOCOL['final_seeds'],method)
+                result,_=evaluate(evaluator,untrained if method=='untrained' else agent,PROTOCOL['final_seeds'],method,action_mode=PROTOCOL['evaluation_action_mode'])
                 comparisons.append(result)
-            recorded,frames=evaluate(evaluator,agent,[70000],record=True)
+            recorded,frames=evaluate(evaluator,agent,[70000],record=True,action_mode=PROTOCOL['evaluation_action_mode'])
             restored=PosteriorActorCritic(WorldModel(SPEC,MODEL))
             restored.load_state_dict(checkpoint_io.load(output/'selected-policy.safe')['model'])
-            repeated,repeated_frames=evaluate(evaluator,restored,[70000],record=True)
+            repeated,repeated_frames=evaluate(evaluator,restored,[70000],record=True,action_mode=PROTOCOL['evaluation_action_mode'])
             assert frames==repeated_frames and recorded==repeated
             report={'protocol':protocol,'world_model_real_agent_transitions':transitions,
                 'world_model_replay_sha256':replay_digest(replay),'world_model_frozen_during_policy_training':True,

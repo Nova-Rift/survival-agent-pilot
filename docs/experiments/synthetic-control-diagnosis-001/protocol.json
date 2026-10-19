@@ -1,0 +1,47 @@
+{
+  "experiment": "Frozen synthetic-control-001 action semantics diagnosis",
+  "checkpoint_sha256": "4fcaa44a9276c372d8d057855a2d7fa59f2a11693c8a7370069d90535ddfa85d",
+  "diagnostic_seeds": [
+    450000,
+    450001,
+    450002,
+    450003,
+    450004,
+    450005,
+    450006,
+    450007
+  ],
+  "final_seeds": [
+    660000,
+    660001,
+    660002,
+    660003,
+    660004,
+    660005,
+    660006,
+    660007,
+    660008,
+    660009,
+    660010,
+    660011,
+    660012,
+    660013,
+    660014,
+    660015
+  ],
+  "training_updates": 0,
+  "checkpoint_selection": "original 001 selection held fixed; no reselection",
+  "variants": [
+    "trained_greedy",
+    "trained_sampled",
+    "untrained_greedy",
+    "untrained_sampled",
+    "random",
+    "scripted"
+  ],
+  "sample_seed": "each world seed + 11, fixed independent torch generator; paired between trained/untrained",
+  "selection_or_tuning_from_final": false,
+  "environment_changed": false,
+  "reward_changed": false,
+  "cost_usd": 0
+}

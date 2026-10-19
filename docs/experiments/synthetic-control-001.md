@@ -1,5 +1,11 @@
 # First synthetic-v2 posterior-control run — October 19, 2026
 
+Later clarification: this original run evaluated argmax actions although training
+sampled categorical actions. Its scores and artifacts remain unchanged. The
+[frozen-checkpoint diagnosis](synthetic-control-diagnosis-001.md) reports both modes
+on fresh worlds, explains the repeated-movement failure, and still finds no
+learning improvement. No original final seeds were repurposed for tuning.
+
 A compatible trained policy now executes in the exact JavaScript environment
 published on clarkwhitehead.com. It underperforms every held-out reference and is
 not the website controller. The live homepage correctly remains labeled scripted.
