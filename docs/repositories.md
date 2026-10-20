@@ -5,11 +5,12 @@
 ## Current hybrid source workflow — October 19, 2026
 
 The current model dependency is `survival-agent` commit
-`19926de4ef8cfff359a54c8263337e7c37706e05` on `hybrid-stage-b`.
+`4b54ed9b08ad0d4bd9e23126ed85421802b48dbb` on `hybrid-stage-b`.
 The tested environment rules are commit `e4d3f66a3f870fefe7340e35f206b587eb0c69e4`
 on `browser-environment`. `pyproject.toml` pins those versions. Use this integration
-branch `hybrid-stage-b-survival`; `python3 -B -m examples.hybrid_combination`
-provides the bounded CartPole/Pendulum hybrid check (see `--help`). The
+branch `hybrid-stage-b-survival`. The full loop now lives in the model repository:
+`python3 -B -m survival_agent.hybrid.model --help`. The older
+`python3 -B -m examples.hybrid_combination` integration check remains available. The
 [transformer guide](transformer-agent.md) retains the posterior-only baseline command. Installed dependencies and sibling source checkouts
 were tested; a new installation/wheel build remains unverified.
 

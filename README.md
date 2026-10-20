@@ -6,9 +6,10 @@ The experimental `HybridModel` combines causal Transformer memory, Dreamer-style
 categorical world modeling/imagination, MuZero-style MCTS for discrete actions,
 and TD-MPC2-style Q ensembles/MPC for continuous actions.
 
-- [All neural architecture in model.py](https://github.com/Nova-Rift/survival-agent/blob/hybrid-stage-b/survival_agent/hybrid/model.py)
+- [Complete model, planning and training loop in model.py](https://github.com/Nova-Rift/survival-agent/blob/hybrid-stage-b/survival_agent/hybrid/model.py)
 - [Implementation, validation and limitations](https://github.com/Nova-Rift/survival-agent/blob/hybrid-stage-b/docs/hybrid-combination.md)
-- [Bounded CartPole/Pendulum training and evaluation command](examples/hybrid_combination.py)
+- Primary command (from the model checkout): `python3 -B -m survival_agent.hybrid.model --task CartPole-v1 --output /private/new/run`
+- [Earlier bounded integration check](examples/hybrid_combination.py)
 - [Preserved posterior-only Transformer survival baseline](docs/transformer-agent.md)
 
 The new path has engineering tests and bounded CPU checks, not demonstrated
