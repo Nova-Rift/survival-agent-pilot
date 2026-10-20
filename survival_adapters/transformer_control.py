@@ -13,7 +13,7 @@ import time
 import numpy as np
 import torch
 from survival_agent import checkpoint_io
-from survival_agent.hybrid import transformer_agent, world_model
+from survival_agent.hybrid import model, transformer_agent, world_model
 from survival_agent.hybrid.transformer_agent import TransformerConfig, TransformerWorldModel, TransformerAgent
 from survival_agent.hybrid.world_model import WorldModelTrainer
 from survival_agent.hybrid.replay import SequenceReplay
@@ -36,7 +36,7 @@ PROTOCOL = {
 
 
 def sources():
-    modules = [transformer_agent, world_model, synthetic_control, training]
+    modules = [model, transformer_agent, world_model, synthetic_control, training]
     paths = [Path(inspect.getfile(m)) for m in modules] + [Path(__file__),
         Path(__file__).resolve().parents[1]/'scripts/synthetic-bridge.mjs']
     return {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}

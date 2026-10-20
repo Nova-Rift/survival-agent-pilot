@@ -1,20 +1,20 @@
 # Survival Agent Pilot
 
-## Current agent: start here
+## Current hybrid: start here
 
-The current development path uses a **small causal transformer** to remember
-numeric observation/action history. It combines that memory with the current local
-view, then an actor chooses a movement action and a critic estimates future reward.
-All eight agents use the same weights and separate histories.
+The experimental `HybridModel` combines causal Transformer memory, Dreamer-style
+categorical world modeling/imagination, MuZero-style MCTS for discrete actions,
+and TD-MPC2-style Q ensembles/MPC for continuous actions.
 
-- [One-file model and action selection](https://github.com/Nova-Rift/survival-agent/blob/hybrid-stage-b/survival_agent/hybrid/transformer_agent.py)
-- [Plain-language walkthrough and component map](https://github.com/Nova-Rift/survival-agent/blob/hybrid-stage-b/README.md) — transformer, world model, RL, text, continual learning and forgetting protection, with implemented/proposed status.
-- [How to run the transformer training check](docs/transformer-agent.md)
+- [All neural architecture in model.py](https://github.com/Nova-Rift/survival-agent/blob/hybrid-stage-b/survival_agent/hybrid/model.py)
+- [Implementation, validation and limitations](https://github.com/Nova-Rift/survival-agent/blob/hybrid-stage-b/docs/hybrid-combination.md)
+- [Bounded CartPole/Pendulum training and evaluation command](examples/hybrid_combination.py)
+- [Preserved posterior-only Transformer survival baseline](docs/transformer-agent.md)
 
-The transformer path has an engineering training/reload check, **not a held-out
-survival improvement result**. Text input, continual learning, forgetting protection
-and learned planning are not active components. Earlier measured results used the
-preserved GRU model. The website remains scripted.
+The new path has engineering tests and bounded CPU checks, not demonstrated
+actor-only learning gains, a held-out survival result or multi-seed planner
+comparisons. Language, continual learning and forgetting protection remain
+unimplemented. The public website and local social game are separate.
 
 ## Existing environment and earlier prototypes
 

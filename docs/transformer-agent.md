@@ -1,3 +1,9 @@
+> Historical posterior-only Transformer baseline. The current combined hybrid is
+> documented in [hybrid-combination.md](https://github.com/Nova-Rift/survival-agent/blob/hybrid-stage-b/docs/hybrid-combination.md).
+> Neural layers now live in `hybrid/model.py`; `transformer_agent.py` retains the
+> baseline action-selection/training helpers and compatibility imports. Source
+> fingerprints include both files; old experiment artifacts remain unchanged.
+
 # Transformer agent: integration and verification
 
 Clark requested transformer memory and a simple, inspectable implementation on

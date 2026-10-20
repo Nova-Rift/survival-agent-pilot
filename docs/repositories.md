@@ -2,14 +2,15 @@
 
 [Developer index](developers.md)
 
-## Current transformer source workflow — October 19, 2026
+## Current hybrid source workflow — October 19, 2026
 
 The current model dependency is `survival-agent` commit
-`4eda7827ff48bb18648dbd86452fd174e3e7dd58` on `hybrid-stage-b`.
+`19926de4ef8cfff359a54c8263337e7c37706e05` on `hybrid-stage-b`.
 The tested environment rules are commit `e4d3f66a3f870fefe7340e35f206b587eb0c69e4`
 on `browser-environment`. `pyproject.toml` pins those versions. Use this integration
-branch `hybrid-stage-b-survival`; the [transformer guide](transformer-agent.md)
-provides the current command. Installed dependencies and sibling source checkouts
+branch `hybrid-stage-b-survival`; `python3 -B -m examples.hybrid_combination`
+provides the bounded CartPole/Pendulum hybrid check (see `--help`). The
+[transformer guide](transformer-agent.md) retains the posterior-only baseline command. Installed dependencies and sibling source checkouts
 were tested; a new installation/wheel build remains unverified.
 
 The extraction pins and setup narrative below are historical. They do not contain
